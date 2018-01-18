@@ -8,8 +8,13 @@ import re
 
 def parse(outfilename):
     outfile = io.open(outfilename,'r')
+    
+    occ = re.compile(r"TODO")
+    
     for textline in outfile:
         """
         !TODO
         """
+    
+    outfile.close()
     
