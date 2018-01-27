@@ -16,6 +16,10 @@ re_method = re.compile(r"\s*1PROGRAM\s*\*\s*(\S+)")
 re_basis = re.compile(r"\s*basis\s*=\s*(\S+)", re.I)
 re_dist = re.compile(r"\s*SETTING R\(\S*\)\s*=\s*(\S*)")
 re_CCSD_energy = re.compile(r"\s*!CCSD total energy\s*(\S*)")
+re_UCCSD_energy = re.compile(r"\s*!RHF-UCCSD energy\s*(\S*)")
+re_RCCSD_energy = re.compile(r"\s*!RHF-RCCSD energy\s*(\S*)")
+re_FCI_energy = re.compile(r"\s*!FCI STATE \S+\.\S+ Energy\s*(\S*)")
+re_RCCSDT1_energy = re.compile(r"\s*!RHF-RCCSD\(T\) energy\s*(\S*)")
 
 def parse(outfilename,moleculename=""):
     outfile = io.open(outfilename,'r')
@@ -47,7 +51,34 @@ def parse(outfilename,moleculename=""):
             newpoint= p.Point(distance_t,CCSDe,moleculename,basis_t,method=method_t)
             points.append(newpoint)
             
+        #UCCSD
+        m = re.match(re_UCCSD_energy,textline)
+        if m:
+            UCCSDe = float(m.group(1))*hartree
+            newpoint= p.Point(distance_t,UCCSDe,moleculename,basis_t,method="UCCSD")
+            points.append(newpoint)
             
+        #RCCSD
+        m = re.match(re_RCCSD_energy,textline)
+        if m:
+            RCCSDe = float(m.group(1))*hartree
+            newpoint= p.Point(distance_t,RCCSDe,moleculename,basis_t,method="RCCSD")
+            points.append(newpoint)
+             
+        #RCCSD(T)    
+        m = re.match(re_RCCSDT1_energy,textline)
+        if m:
+            RCCSDT1e = float(m.group(1))*hartree
+            newpoint= p.Point(distance_t,RCCSDT1e,moleculename,basis_t,method="RCCSD(T)")
+            points.append(newpoint)
+            
+        #FCI TODO: more states
+        m = re.match(re_FCI_energy,textline)
+        if m:
+            FCIe = float(m.group(1))*hartree
+            newpoint= p.Point(distance_t,FCIe,moleculename,basis_t,method=method_t)
+            points.append(newpoint)
+        
     outfile.close()
     return p.makelines(points)
 

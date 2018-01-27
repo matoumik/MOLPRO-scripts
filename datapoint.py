@@ -152,3 +152,31 @@ def mergelines(lines):
             newlines.append(line)
     
     return newlines
+
+def chooselines(lines, moleculename="",basis="",method="",
+                occ="",numberofelectrons="",
+                symmetry="",spin="",number=""):
+    newlines = list()
+    for line in lines:
+        if isin(moleculename, line.moleculename) and \
+        isin(basis,line.basis) and isin(method, line.method) and\
+        isin(occ,line.occ) and isin(numberofelectrons, line.numberofelectrons) and\
+        isin(symmetry,line.symmetry) and isin(spin, line.spin) and\
+        isin(number,line.number):
+            newlines.append(line)
+    
+    return newlines
+
+        
+def isin(thelist, themember):
+    if thelist == "":
+        return True
+    elif themember == "":
+        return True
+    elif type(thelist) is list:
+        if themember in thelist:
+            return True
+    elif thelist == themember:
+        return True
+    else:
+        return False
