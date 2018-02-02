@@ -71,7 +71,7 @@ class Point:
         
         return ret
     
-    def setOutputTemlate(self,OutputTemplate):
+    def setoutputtemplate(self,OutputTemplate):
         self.strtemplate = OutputTemplate
         
 class Line:
@@ -126,6 +126,10 @@ class Line:
         for point in self.points:
             datafile.write(str(point.distance)+" "+str(point.energy)+"\n")
         datafile.close()
+        
+    def setoutputtemplate(self,OutputTemplate):
+        self.strtemplate = OutputTemplate
+        
     
     
 def makelines(points):

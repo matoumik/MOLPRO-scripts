@@ -11,7 +11,8 @@ import datapoint as p
 
 hartree= 27.21138602
 
-re_occ = re.compile(r"\s*occ\s*=\s*(\S+)", re.I) 
+
+re_occ = re.compile(r"\s*occ\s*,\s*(\S+)", re.I) 
 re_method = re.compile(r"\s*1PROGRAM\s*\*\s*(\S+)")
 re_basis = re.compile(r"\s*basis\s*=\s*(\S+)", re.I)
 re_dist = re.compile(r"\s*SETTING R\(\S*\)\s*=\s*(\S*)")
@@ -19,11 +20,15 @@ re_CCSD_energy = re.compile(r"\s*!CCSD total energy\s*(\S*)")
 re_UCCSD_energy = re.compile(r"\s*!RHF-UCCSD energy\s*(\S*)")
 re_RCCSD_energy = re.compile(r"\s*!RHF-RCCSD energy\s*(\S*)")
 re_FCI_energy = re.compile(r"\s*!FCI STATE \S+\.\S+ Energy\s*(\S*)")
+re_CI_energy = re.compile(r"\s*!MRCI STATE \S+\.\S+ Energy\s*(\S*)")
+re_CI_sym = re.compile(r"\s*Reference symmetry:\s*(\S*)\s*(\S*)", re.I)
 re_RCCSDT1_energy = re.compile(r"\s*!RHF-RCCSD\(T\) energy\s*(\S*)")
+
 
 def parse(outfilename,moleculename=""):
     outfile = io.open(outfilename,'r')
     points = list()
+    occ_t=""
 
     for textline in outfile:
         m = re.match(re_occ,textline)
@@ -78,6 +83,20 @@ def parse(outfilename,moleculename=""):
             FCIe = float(m.group(1))*hartree
             newpoint= p.Point(distance_t,FCIe,moleculename,basis_t,method=method_t)
             points.append(newpoint)
+            
+        #CI TODO: more states
+        m = re.match(re_CI_sym,textline)
+        if m:
+            CIsym = m.group(1)
+            CIspin = m.group(2)
+            
+        
+        m = re.match(re_CI_energy,textline)
+        if m:
+            CIe = float(m.group(1))*hartree
+            newpoint= p.Point(distance_t,CIe,moleculename,basis_t,method=method_t,occ=occ_t,symmetry=CIsym,spin=CIspin)
+            points.append(newpoint)
+            
         
     outfile.close()
     return p.makelines(points)
