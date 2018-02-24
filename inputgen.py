@@ -198,7 +198,16 @@ class Molprojob:
     def addRCCSDT1(self, nelec, sym, spin):
         self.methods = self.methods +\
         "{RCCSD(T);\n" + wf(nelec,sym,spin) + "\n ORBITAL,IGNORE_ERROR;\n}\n\n"
-           
+
+    def addMULTI1(self, nelec, sym, spin):
+        self.methods = self.methods +\
+        "{multi;\n" + wf(nelec,sym,spin) + "\n }\n\n" #ORBITAL,IGNORE_ERROR;\n
+
+    def addCI(self, nelec, sym, spin, states):
+        self.methods = self.methods +\
+        "{ci;\n" + wf(nelec,sym,spin,states) + "\n }\n\n" #ORBITAL,IGNORE_ERROR;\n
+
+     
 
 def makedistrange(mind, maxd, step):
     dists = list()
