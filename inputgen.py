@@ -107,7 +107,7 @@ class Molprojob:
         if occ == "":
             self.occ = ""
         else:
-            self.occ = "occ = " + occ
+            self.occ = "occ," + occ
         
         
         
