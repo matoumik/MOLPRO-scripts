@@ -189,9 +189,12 @@ class Molprojob:
         
     def addFCI(self, nelec, sym, spin, states=-1):
         self.methods = self.methods +\
-        "{fci;\n" + wf(nelec,sym,spin) + "\n ORBITAL,IGNORE_ERROR;\n}\n\n"
+        "{fci;\n" + wf(nelec,sym,spin,states) + "\n ORBITAL,IGNORE_ERROR;\n}\n\n"
        
-    
+    def addCCSDT1(self, nelec, sym, spin):
+        self.methods = self.methods +\
+        "{CCSD(T);\n" + wf(nelec,sym,spin) + "\n ORBITAL,IGNORE_ERROR;\n}\n\n"
+       
         
 
 def makedistrange(mind, maxd, step):
