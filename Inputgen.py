@@ -163,24 +163,35 @@ class Molprojob:
             i = 1
             runfile="#!/bin/bash\n\n"
             for arange in self.ranges:
-                dirn = self.name+"/range"+str(i)
-                try:
-                    os.mkdir(dirn)
-                except:
-                    pass;
-                
-                self.writeinfile(arange, dirn+"/molpro.in")
-                self.writerunfile(dirn+"/runpart.sh")
-                runfile=runfile + "qsub range"+str(i)+"/runpart.sh\n"
-                i=i+1
+                if len(arange)>0:
+                    dirn = self.name+"/range"+str(i)
+                    try:
+                        os.mkdir(dirn)
+                    except:
+                        pass;
+                    
+                    self.writeinfile(arange, dirn+"/molpro.in")
+                    self.writerunfile(dirn+"/runpart.sh")
+                    runfile=runfile + "qsub range"+str(i)+"/runpart.sh\n"
+                    i=i+1
             f = io.open(self.name+"/runall.sh", "w")
             f.write(unicode(runfile))
             f.close()
             os.chmod(self.name+"/runall.sh",0777)
-            
-                
-                
         
+    def addRHF(self, nelec, sym, spin):
+        self.methods = self.methods +\
+        "{\n rhf\n" + wf(nelec,sym,spin) + "\n}\n\n"
+            
+    def addUHF(self, nelec, sym, spin):
+        self.methods = self.methods +\
+        "{\n uhf\n" + wf(nelec,sym,spin) + "\n}\n\n"
+        
+    def addFCI(self, nelec, sym, spin, states=-1):
+        self.methods = self.methods +\
+        "{\n uhf\n" + wf(nelec,sym,spin) + "\n ORBITAL,IGNORE_ERROR;\n}\n\n"
+       
+    
         
 
 def makedistrange(mind, maxd, step):
@@ -219,7 +230,10 @@ def splitdistrange(distrange,size):
 def gediat(el1, el2):
     return el1 + " ,,   0.0, 0.0, -r(k)/2\n" + el2 + " ,,   0.0, 0.0, r(k)/2"
            
-def wf(nelec,sym,spin,states=1):
-    return "wf,nelec="+str(nelec)+",sym="+str(sym)+",spin="+str(spin)+"; state,"+ str(states) +",nocheck;"
-        
+def wf(nelec,sym,spin,states=-1):
+    wfstr = "wf,nelec="+str(nelec)+",sym="+str(sym)+",spin="+str(spin)+";"
+    if states > 1:
+        wfstr = wf + "states=" + str(states) + ","
+    # wfstr = wfstr +"nocheck;"
+    return wfstr
             
