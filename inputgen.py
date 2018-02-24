@@ -143,11 +143,11 @@ class Molprojob:
         infile = re.sub(reME, self.methods, infile)
         #print(infile)
         f = io.open(filename,'w')
-        f.write(unicode(infile))
+        f.write(infile)
         f.close()
     def writerunfile(self,filename):
         f = io.open(filename,'w')
-        f.write(unicode(shparttemplate))
+        f.write(shparttemplate)
         f.close()
         
     def makejob(self):
@@ -172,24 +172,24 @@ class Molprojob:
                     
                     self.writeinfile(arange, dirn+"/molpro.in")
                     self.writerunfile(dirn+"/runpart.sh")
-                    runfile=runfile + "qsub range"+str(i)+"/runpart.sh\n"
+                    runfile=runfile + "cd range"+str(i)+"\n qsub runpart.sh\n cd ..\n"
                     i=i+1
             f = io.open(self.name+"/runall.sh", "w")
-            f.write(unicode(runfile))
+            f.write(runfile)
             f.close()
-            os.chmod(self.name+"/runall.sh",0777)
+            #os.chmod(self.name+"/runall.sh",0777)
         
     def addRHF(self, nelec, sym, spin):
         self.methods = self.methods +\
-        "{\n rhf\n" + wf(nelec,sym,spin) + "\n}\n\n"
+        "{rhf;\n" + wf(nelec,sym,spin) + "\n}\n\n"
             
     def addUHF(self, nelec, sym, spin):
         self.methods = self.methods +\
-        "{\n uhf\n" + wf(nelec,sym,spin) + "\n}\n\n"
+        "{uhf;\n" + wf(nelec,sym,spin) + "\n}\n\n"
         
     def addFCI(self, nelec, sym, spin, states=-1):
         self.methods = self.methods +\
-        "{\n uhf\n" + wf(nelec,sym,spin) + "\n ORBITAL,IGNORE_ERROR;\n}\n\n"
+        "{fci;\n" + wf(nelec,sym,spin) + "\n ORBITAL,IGNORE_ERROR;\n}\n\n"
        
     
         
