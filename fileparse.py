@@ -79,7 +79,7 @@ def parse(outfilename,moleculename=""):
             points.append(newpoint)
 
 	#CCSD(T)
-        m = re.match(re_RCCSDT1_energy,textline)
+        m = re.match(re_CCSDT1_energy,textline)
         if m:
             CCSDT1e = float(m.group(1))*hartree
             newpoint= p.Point(distance_t,CCSDT1e,moleculename,basis_t,method="CCSD(T)")
