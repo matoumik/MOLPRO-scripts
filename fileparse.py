@@ -19,11 +19,12 @@ re_dist = re.compile(r"\s*SETTING R\(\S*\)\s*=\s*(\S*)")
 re_CCSD_energy = re.compile(r"\s*!CCSD total energy\s*(\S*)")
 re_UCCSD_energy = re.compile(r"\s*!RHF-UCCSD energy\s*(\S*)")
 re_RCCSD_energy = re.compile(r"\s*!RHF-RCCSD energy\s*(\S*)")
+#re_CCSD_energy = re.compile(r"\s*!CCSD energy\s*(\S*)")
 re_FCI_energy = re.compile(r"\s*!FCI STATE \S+\.\S+ Energy\s*(\S*)")
 re_CI_energy = re.compile(r"\s*!MRCI STATE \S+\.\S+ Energy\s*(\S*)")
 re_CI_sym = re.compile(r"\s*Reference symmetry:\s*(\S*)\s*(\S*)", re.I)
 re_RCCSDT1_energy = re.compile(r"\s*!RHF-RCCSD\(T\) energy\s*(\S*)")
-
+re_CCSDT1_energy = re.compile(r"\s*!CCSD\(T\) total energy\s*(\S*)")
 
 def parse(outfilename,moleculename=""):
     outfile = io.open(outfilename,'r')
@@ -75,6 +76,13 @@ def parse(outfilename,moleculename=""):
         if m:
             RCCSDT1e = float(m.group(1))*hartree
             newpoint= p.Point(distance_t,RCCSDT1e,moleculename,basis_t,method="RCCSD(T)")
+            points.append(newpoint)
+
+	#CCSD(T)
+        m = re.match(re_RCCSDT1_energy,textline)
+        if m:
+            CCSDT1e = float(m.group(1))*hartree
+            newpoint= p.Point(distance_t,CCSDT1e,moleculename,basis_t,method="CCSD(T)")
             points.append(newpoint)
             
         #FCI TODO: more states
