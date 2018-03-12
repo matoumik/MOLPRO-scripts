@@ -9,13 +9,30 @@ Created on Fri Jan 26 00:32:58 2018
 import os
 
 class Gnuplot:
-    def __init__(self,plotname="plot", plotlines=list()):
+    def __init__(self,plotname="plot", plotlines=list(), style = "", output ="",yrange =""):
         self.plotname=plotname
         self.lines = plotlines
+        self.style = style
+        self.output = output
+        self.yrange = yrange
         
     def writeplot(self, subdir=""):
         i = 0
         comma = False
+        axistring = "set xlabel \"nuclear distance [{\\305}]\"\n set ylabel \"Energy [eV]\" \n"
+        
+        if self.yrange != "":
+            yrangestring = "set yrange [" +self.yrange+ "]\n"
+        else:
+            yrangestring = ""
+            
+            
+        if self.output == "pdf":
+            openfilestring = "set term pdf \n set output \"" + subdir + self.plotname + ".pdf\" \n"        
+            closefilestring = "set output\n"
+        else:
+            openfilestring = ""
+            closefilestring = ""
         plotstring = "plot"
         try:
             os.mkdir(subdir + self.plotname)
@@ -30,10 +47,22 @@ class Gnuplot:
                 comma = True    
             
             plotstring = plotstring + " \"" + subdir + self.plotname + \
-            "/"+str(i)+".plt\" title \"" + str(line) + "\" "
+            "/"+str(i)+".plt\" "+self.style+" title \"" + str(line) + "\" "
             i=i+1
         
         
         plotfile = open(subdir + self.plotname + ".plt","w")
-        plotfile.write(plotstring)
-        plotfile.close
+        plotfile.write("reset\n")
+        plotfile.write(axistring)
+        plotfile.write(yrangestring)
+        plotfile.write(openfilestring)
+        plotfile.write(plotstring+"\n")
+        plotfile.write(closefilestring)
+        plotfile.close()
+
+def makecompareplot(refline, otherlines, name, output="",yrange=""):
+    for line in otherlines+refline:
+        line.setoutputtemplate("$M")
+    tempplot = Gnuplot(name, refline + otherlines, "with lines", "pdf", yrange=yrange)
+    tempplot.writeplot()
+    

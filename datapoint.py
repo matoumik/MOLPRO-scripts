@@ -154,6 +154,8 @@ def mergelines(lines):
                 notmatched = False
         if notmatched:
             newlines.append(line)
+    for line in newlines:
+        line.points.sort(key=lambda x: float(x.distance))
     
     return newlines
 
