@@ -8,6 +8,7 @@ Created on Fri Jan 26 00:32:58 2018
 
 import os
 
+
 class Gnuplot:
     def __init__(self,plotname="plot", plotlines=list(), style = "", output ="",yrange =""):
         self.plotname=plotname
@@ -19,7 +20,7 @@ class Gnuplot:
     def writeplot(self, subdir=""):
         i = 0
         comma = False
-        axistring = "set xlabel \"nuclear distance [{\\305}]\"\n set ylabel \"Energy [eV]\" \n"
+        axistring = "set xlabel \"nuclear distance [{\\305}]\"\n set ylabel \"Energy [eV]\" \n set encoding iso_8859_1 \n"
         
         if self.yrange != "":
             yrangestring = "set yrange [" +self.yrange+ "]\n"
@@ -28,7 +29,7 @@ class Gnuplot:
             
             
         if self.output == "pdf":
-            openfilestring = "set term pdf \n set output \"" + subdir + self.plotname + ".pdf\" \n"        
+            openfilestring = "set term pdf enhanced \n set output \"" + subdir + self.plotname + ".pdf\" \n"        
             closefilestring = "set output\n"
         else:
             openfilestring = ""
@@ -62,7 +63,22 @@ class Gnuplot:
 
 def makecompareplot(refline, otherlines, name, output="",yrange=""):
     for line in otherlines+refline:
-        line.setoutputtemplate("$M")
+        if line.method == "CI":
+            line.setoutputtemplate("$M ($O)")
+        else:
+            line.setoutputtemplate("$M")
     tempplot = Gnuplot(name, refline + otherlines, "with lines", "pdf", yrange=yrange)
     tempplot.writeplot()
     
+    i = 0
+    diffname = name+"-diff"
+    for temprefline in refline:
+        if i>0:
+            tempname = diffname +"_" + str(i)
+        else:
+            tempname = diffname
+        plotlines = list()
+        for templine in otherlines:
+            plotlines.append(templine-temprefline)
+        tempplot = Gnuplot(tempname, plotlines, "with linespoints", "pdf")
+        tempplot.writeplot()

@@ -201,11 +201,11 @@ class Molprojob:
 
     def addMULTI1(self, nelec, sym, spin):
         self.methods = self.methods +\
-        "{multi;\n" + wf(nelec,sym,spin) + "\n }\n\n" #ORBITAL,IGNORE_ERROR;\n
+        "{multi;\n" + wf(nelec,sym,spin) + "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
 
     def addCI(self, nelec, sym, spin, states):
         self.methods = self.methods +\
-        "{ci;\n" + wf(nelec,sym,spin,states) + "\n }\n\n" #ORBITAL,IGNORE_ERROR;\n
+        "{ci;\n" + wf(nelec,sym,spin,states) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" #
 
      
 

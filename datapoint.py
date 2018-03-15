@@ -9,6 +9,8 @@ __Name__ = "datapoint"
 
 import re
 
+distepsilon=0.01
+
 B = re.compile("\$B")
 D = re.compile("\$D")
 E = re.compile("\$E")
@@ -130,7 +132,23 @@ class Line:
     def setoutputtemplate(self,OutputTemplate):
         self.strtemplate = OutputTemplate
         
-    
+    def __sub__(self,y):
+        if False: #TODO compare type
+            print("Warning - substracting lines of different types")
+        
+        newline=Line(list(),
+                   moleculename=self.moleculename,basis=self.basis,method=self.method,occ=self.occ,numberofelectrons=self.numberofelectrons,
+                   symmetry=self.symmetry,spin=self.spin,number=self.number,strtemplate=self.strtemplate) 
+        for firstpoint in self.points:
+            for secondpoint in y.points:
+                if abs(float(secondpoint.distance) - float(firstpoint.distance)) < distepsilon:
+                    newpoint = firstpoint
+                    newpoint.energy = firstpoint.energy - secondpoint.energy
+                    newline.points.append(newpoint)
+        return newline
+
+        
+        
     
 def makelines(points):
     lines = list()
