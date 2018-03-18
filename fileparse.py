@@ -112,7 +112,7 @@ def parse(outfilename,moleculename=""):
 def parsefolder(folderpath,moleculename="",
                 molprooutfilename="molpro.out",
                 mergeidenticallines=False):
-    lines=list()
+    lines=p.Linelist()
     for dirName, subdirList, fileList in os.walk(folderpath):
         for fname in fileList:
             if fname == molprooutfilename:

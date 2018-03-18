@@ -151,7 +151,7 @@ class Line:
         
     
 def makelines(points):
-    lines = list()
+    lines = Linelist()
     for point in points:
         lines.append(Line([point],moleculename=point.moleculename,basis=point.basis,
                           method = point.method,
@@ -163,7 +163,7 @@ def makelines(points):
     return mergelines(lines)
 
 def mergelines(lines):
-    newlines = list()
+    newlines = Linelist()
     for line in lines:
         notmatched = True
         for newline in newlines:
@@ -180,7 +180,7 @@ def mergelines(lines):
 def chooselines(lines, moleculename="",basis="",method="",
                 occ="",numberofelectrons="",
                 symmetry="",spin="",number=""):
-    newlines = list()
+    newlines = Linelist()
     for line in lines:
         if isin(moleculename, line.moleculename) and \
         isin(basis,line.basis) and isin(method, line.method) and\
@@ -197,10 +197,21 @@ def isin(thelist, themember):
         return True
     elif themember == "":
         return True
-    elif type(thelist) is list:
+    elif type(thelist) is Linelist:
         if themember in thelist:
             return True
     elif thelist == themember:
         return True
     else:
         return False
+
+class Linelist(list):
+    def __init__(self, *args):
+        super(Linelist, self).__init__(args)
+    
+    def __sub__(self, alist):
+        newlines = Linelist()
+        for line1 in self:
+            for line2 in alist:
+                newlines.append(line1-line2)
+        return newlines
