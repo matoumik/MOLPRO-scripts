@@ -7,6 +7,7 @@ Created on Fri Jan 26 00:32:58 2018
 """
 
 import os
+
 import datapoint as dp
 
 class Gnuplot:
@@ -84,7 +85,7 @@ def makecompareplot(refline, otherlines, name, output="",yrange=""):
             tempname = diffname +"_" + str(i)
         else:
             tempname = diffname
-        plotlines = list()
+        plotlines = dp.Linelist()
         for templine in otherlines:
             plotlines.append(templine-temprefline)
         tempplot = Gnuplot(tempname, plotlines, "with linespoints", "pdf")

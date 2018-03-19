@@ -214,14 +214,15 @@ class Linelist(list):
         for line1 in self:
             for line2 in alist:
                 newlines.append(line1-line2)
-        return newlines
+        return self.__class__(newlines)
     def __add__(self,alist):
         newlines = Linelist()
         for line in self:
-            newlines.append(line)
+            newline.append(line)
         for line in alist:
-            newlines.append(line)
+            newline.append(line)
         return newlines
+
     def setoutputtemplate(self,template):
         for line in self:
             line.setoutputtemplate(template)
