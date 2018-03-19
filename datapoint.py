@@ -222,6 +222,7 @@ class Linelist(list):
         for line in alist:
             newline.append(line)
         return newlines
+
     def setoutputtemplate(self,template):
         for line in self:
             line.setoutputtemplate(template)

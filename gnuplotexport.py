@@ -8,15 +8,16 @@ Created on Fri Jan 26 00:32:58 2018
 
 import os
 import fileparse as fp
-
+import datapoint as dp
 
 class Gnuplot:
-    def __init__(self,plotname="plot", plotlines=fp.Linelist(), style = "", output ="",yrange =""):
+    def __init__(self,plotname="plot", plotlines=dp.Linelist(), style = "", output ="",yrange =""):
         self.plotname=plotname
         self.lines = plotlines
         self.style = style
         self.output = output
         self.yrange = yrange
+        self.xrange = xrange
         
     def writeplot(self, subdir=""):
         i = 0
@@ -27,6 +28,11 @@ class Gnuplot:
             yrangestring = "set yrange [" +self.yrange+ "]\n"
         else:
             yrangestring = ""
+        
+        if self.xrange != "":
+            xrangestring = "set xrange [" +self.xrange+ "]\n"
+        else:
+            xrangestring = ""
             
             
         if self.output == "pdf":
@@ -56,6 +62,7 @@ class Gnuplot:
         plotfile = open(subdir + self.plotname + ".plt","w")
         plotfile.write("reset\n")
         plotfile.write(axistring)
+        plotfile.write(xrangestring)
         plotfile.write(yrangestring)
         plotfile.write(openfilestring)
         plotfile.write(plotstring+"\n")
