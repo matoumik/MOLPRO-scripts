@@ -7,10 +7,10 @@ Created on Fri Jan 26 00:32:58 2018
 """
 
 import os
-
+import datapoint as dp
 
 class Gnuplot:
-    def __init__(self,plotname="plot", plotlines=list(), style = "", output ="",xrange="",yrange =""):
+    def __init__(self,plotname="plot", plotlines=dp.Linelist(), style = "", output ="",xrange="",yrange =""):
         self.plotname=plotname
         self.lines = plotlines
         self.style = style
