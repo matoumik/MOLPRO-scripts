@@ -7,10 +7,11 @@ Created on Fri Jan 26 00:32:58 2018
 """
 
 import os
+import fileparse as fp
 
 
 class Gnuplot:
-    def __init__(self,plotname="plot", plotlines=list(), style = "", output ="",yrange =""):
+    def __init__(self,plotname="plot", plotlines=fp.Linelist(), style = "", output ="",yrange =""):
         self.plotname=plotname
         self.lines = plotlines
         self.style = style
@@ -77,7 +78,7 @@ def makecompareplot(refline, otherlines, name, output="",yrange=""):
             tempname = diffname +"_" + str(i)
         else:
             tempname = diffname
-        plotlines = list()
+        plotlines = fp.Linelist()
         for templine in otherlines:
             plotlines.append(templine-temprefline)
         tempplot = Gnuplot(tempname, plotlines, "with linespoints", "pdf")
