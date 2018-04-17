@@ -69,13 +69,13 @@ class Gnuplot:
         plotfile.write(closefilestring)
         plotfile.close()
 
-def makecompareplot(refline, otherlines, name, output="",yrange=""):
-    for line in otherlines+refline:
+def makecompareplot(refline, otherlines, name, output="",xrange="",yrange=""):
+    for line in (otherlines+refline):
         if line.method == "CI":
             line.setoutputtemplate("$M ($O)")
         else:
             line.setoutputtemplate("$M")
-    tempplot = Gnuplot(name, refline + otherlines, "with lines", "pdf", yrange=yrange)
+    tempplot = Gnuplot(name, refline + otherlines, "with linespoints", "pdf",xrange=xrange, yrange=yrange)
     tempplot.writeplot()
     
     i = 0

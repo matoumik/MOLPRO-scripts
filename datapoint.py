@@ -146,6 +146,58 @@ class Line:
                     newpoint.energy = firstpoint.energy - secondpoint.energy
                     newline.points.append(newpoint)
         return newline
+    
+    def cut(self, mindist="", maxdist=""):
+        newline = Line(list(),
+                   moleculename=self.moleculename,basis=self.basis,method=self.method,occ=self.occ,numberofelectrons=self.numberofelectrons,
+                   symmetry=self.symmetry,spin=self.spin,number=self.number,strtemplate=self.strtemplate) 
+        for point in self.points:
+            if ((mindist == "" or point.distance>mindist) and (maxdist == "" or point.distance<maxdist)):
+                newline.points.append(point)
+        return newline
+    
+    def distsort(self):
+        self.points.sort(key=lambda x: x.distance)
+    
+    def minimum(self):
+        minimum = self.points[0]
+        for point in self.points:
+            if point.energy<minimum.energy:
+                minimum = point
+        
+        return minimum.energy, minimum.distance
+    
+    def distances(self):
+        self.distsort()
+        dists = list()
+        for point in self.points:
+            dists.append(point.distance)
+        return dists
+        
+    def energies(self):
+        self.distsort()
+        energs = list()
+        for point in self.points:
+            energs.append(point.energy)
+        return energs
+        
+        
+        
+    def extendtozero(self):
+        self.distsort()
+        spacing = self.points[1].distance-self.points[0].distance
+        first = self.points[0]
+        curdist = first.distance - spacing
+        while (curdist>0 and spacing>0):
+            newpoint = first
+            #print("bump")
+            newpoint.distance = curdist
+            self.points.append(newpoint)
+            curdist = curdist - spacing
+        self.distsort()
+            
+    
+        
 
         
         
@@ -191,7 +243,9 @@ def chooselines(lines, moleculename="",basis="",method="",
     
     return newlines
 
-        
+
+
+    
 def isin(thelist, themember):
     if thelist == "":
         return True
@@ -214,13 +268,13 @@ class Linelist(list):
         for line1 in self:
             for line2 in alist:
                 newlines.append(line1-line2)
-        return self.__class__(newlines)
+        return newlines
     def __add__(self,alist):
         newlines = Linelist()
         for line in self:
-            newline.append(line)
+            newlines.append(line)
         for line in alist:
-            newline.append(line)
+            newlines.append(line)
         return newlines
 
     def setoutputtemplate(self,template):

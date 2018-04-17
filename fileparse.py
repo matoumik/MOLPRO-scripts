@@ -42,7 +42,7 @@ def parse(outfilename,moleculename=""):
             
         m = re.match(re_dist,textline)
         if m:
-            distance_t= m.group(1)
+            distance_t= float(m.group(1))
         
         m = re.match(re_method,textline)
         if m:
@@ -111,12 +111,14 @@ def parse(outfilename,moleculename=""):
 
 def parsefolder(folderpath,moleculename="",
                 molprooutfilename="molpro.out",
-                mergeidenticallines=False):
+                mergeidenticallines=False,
+                silent = False):
     lines=p.Linelist()
     for dirName, subdirList, fileList in os.walk(folderpath):
         for fname in fileList:
             if fname == molprooutfilename:
-                print(dirName + "/" + fname)
+                if not silent:
+                    print(dirName + "/" + fname)
                 lines = lines + parse(dirName + "/" + fname, moleculename)
     
     if mergeidenticallines:
