@@ -26,6 +26,7 @@ def quantumgrid(potencial,mu,spacing):
 
     #print(spacing)
     #TODO check equidistance
+    spacing = spacing/bohr
     pointnum = len(potencial.points)
     hamiltonian = np.zeros((pointnum+1,pointnum+1))
     for i in range(1,pointnum+1,1):
@@ -41,7 +42,7 @@ def quantumgrid(potencial,mu,spacing):
 def potencialgridprep(potencial, mindist="", maxdist=""):
     potencial.distsort()
     potencial = potencial.cut(mindist, maxdist)
-    spacing = (potencial.points[1].distance - potencial.points[0].distance)/bohr
+    spacing = (potencial.points[1].distance - potencial.points[0].distance)
     potencial.extendtozero()
     return potencial, spacing
 
@@ -55,7 +56,7 @@ def quantumLHO(potencial, neigh, states=1):
 
 def LHO():
     def f(x, k, e, d):
-        return 0.5*k*(x-d)*(x-d) + e
+        return (0.5*k*(x-d)*(x-d)/bohr/bohr + e)*hartree
     return f
     
     
