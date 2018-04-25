@@ -5,7 +5,7 @@ Created on Wed Mar 28 08:25:57 2018
 
 @author: mikulas
 """
-
+from scipy.interpolate import interp1d
 import scipy.optimize as op
 import numpy as np
 import numpy.linalg as la
@@ -17,7 +17,7 @@ bohr= 0.529177
 def mu(amu1, amu2):
     return 1.0*amu1*amu2*amuel/(amu1+amu2)
 
-def quantumgrid(potencial,mu,spacing):
+def quantumgrid(potencial,mu,pointnum):
     
     #potencial = potencial.cut(mindist, maxdist)
     #spacing = (potencial.points[1].distance - potencial.points[0].distance)/bohr
@@ -26,24 +26,36 @@ def quantumgrid(potencial,mu,spacing):
 
     #print(spacing)
     #TODO check equidistance
+    
+    spacing = (potencial.points[-1].distance - potencial.points[0].distance)/(pointnum-1)
     spacing = spacing/bohr
-    pointnum = len(potencial.points)
-    hamiltonian = np.zeros((pointnum+1,pointnum+1))
-    for i in range(1,pointnum+1,1):
-        hamiltonian[i][i] = potencial.points[i-1].energy/hartree + 1.0/mu/spacing/spacing
+    
+    x = np.linspace(potencial.points[0].distance,potencial.points[-1].distance, num = pointnum, endpoint = True)
+    potencial = potencial.distsort()
+    print( potencial.distances())
+    
+    interpol = interp1d(np.array(potencial.distances()),np.array(potencial.energies()),kind="cubic")
+
+    hamiltonian = np.zeros((pointnum,pointnum))
+    for i in range(0,pointnum,1):
+        pot = interpol(x[i])
+        hamiltonian[i][i] = pot/hartree + 1.0/mu/spacing/spacing
         hamiltonian[i-1][i] = -0.5/mu/spacing/spacing
         hamiltonian[i][i-1] = -0.5/(mu*spacing*spacing)
     
     E,psi = la.eigh(hamiltonian)
     
-    
-    return E*hartree, psi
+    return E*hartree, psi, x, interpol
 
 def potencialgridprep(potencial, mindist="", maxdist=""):
     potencial.distsort()
     potencial = potencial.cut(mindist, maxdist)
     spacing = (potencial.points[1].distance - potencial.points[0].distance)
-    potencial.extendtozero()
+    #potencial.extendtozero()
+    newpoint = potencial.points[0]
+    newpoint.distance = 0
+    #potencial.points.append(newpoint)
+    potencial.distsort()
     return potencial, spacing
 
 

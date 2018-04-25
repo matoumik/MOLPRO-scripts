@@ -8,6 +8,7 @@ Created on Thu Jan 25 20:04:54 2018
 __Name__ = "datapoint"
 
 import re
+import numpy as np
 
 distepsilon=0.01
 
@@ -157,7 +158,14 @@ class Line:
         return newline
     
     def distsort(self):
-        self.points.sort(key=lambda x: x.distance)
+        temp = self.points
+        temp.sort(key=lambda x: x.distance)
+        
+        templine = self
+        templine.points = temp 
+        
+        return templine
+        #self.points.sort(key=lambda x: x.distance)
     
     def minimum(self):
         minimum = self.points[0]
@@ -181,17 +189,30 @@ class Line:
             energs.append(point.energy)
         return energs
         
-        
+#    def arrdistances(self):
+#        self.distsort()
+#        dists = np.array()
+#        for point in self.points:
+#            dists.append(point.distance)
+#        return dists
+#        
+#    def arrenergies(self):
+#        self.distsort()
+#        energs = list()
+#        for point in self.points:
+#            energs.append(point.energy)
+#        return energs
         
     def extendtozero(self):
         self.distsort()
         spacing = self.points[1].distance-self.points[0].distance
         first = self.points[0]
         curdist = first.distance - spacing
+        newpoint = first
         while (curdist>0 and spacing>0):
-            newpoint = first
-            #print("bump")
+            newpoint = self.points[0]
             newpoint.distance = curdist
+            print(curdist)
             self.points.append(newpoint)
             curdist = curdist - spacing
         self.distsort()
