@@ -17,7 +17,7 @@ bohr= 0.529177
 def mu(amu1, amu2):
     return 1.0*amu1*amu2*amuel/(amu1+amu2)
 
-def quantumgrid(potencial,mu,pointnum):
+def quantumgrid(potencial,mu,spacing):
     
     #potencial = potencial.cut(mindist, maxdist)
     #spacing = (potencial.points[1].distance - potencial.points[0].distance)/bohr
@@ -25,38 +25,43 @@ def quantumgrid(potencial,mu,pointnum):
 
 
     #print(spacing)
-    #TODO check equidistance
-    
-    spacing = (potencial.points[-1].distance - potencial.points[0].distance)/(pointnum-1)
+    #TODO check equidistance    
     spacing = spacing/bohr
-    
-    x = np.linspace(potencial.points[0].distance,potencial.points[-1].distance, num = pointnum, endpoint = True)
+    pointnum = len(potencial.points)
     potencial = potencial.distsort()
-    print( potencial.distances())
     
-    interpol = interp1d(np.array(potencial.distances()),np.array(potencial.energies()),kind="cubic")
-
-    hamiltonian = np.zeros((pointnum,pointnum))
-    for i in range(0,pointnum,1):
-        pot = interpol(x[i])
-        hamiltonian[i][i] = pot/hartree + 1.0/mu/spacing/spacing
-        hamiltonian[i-1][i] = -0.5/mu/spacing/spacing
-        hamiltonian[i][i-1] = -0.5/(mu*spacing*spacing)
+    hamiltonian = np.zeros((pointnum,pointnum))  
+    for i in range(1,pointnum,1):        
+        hamiltonian[i][i] = potencial.points[i].energy/hartree + 1.0/mu/spacing/spacing
+        hamiltonian[i][i-1] = -0.5/mu/spacing/spacing
+        hamiltonian[i-1][i] = -0.5/(mu*spacing*spacing)
     
     E,psi = la.eigh(hamiltonian)
     
-    return E*hartree, psi, x, interpol
+#    print(hamiltonian)
+    
+    return E*hartree, psi
 
-def potencialgridprep(potencial, mindist="", maxdist=""):
+def potencialgridprep(potencial, pointnum, mindist="", maxdist=""):
     potencial.distsort()
-    potencial = potencial.cut(mindist, maxdist)
-    spacing = (potencial.points[1].distance - potencial.points[0].distance)
-    #potencial.extendtozero()
-    newpoint = potencial.points[0]
-    newpoint.distance = 0
-    #potencial.points.append(newpoint)
+    potencial = potencial.cut(mindist, maxdist)    
+    potencial.extendtozero()
     potencial.distsort()
-    return potencial, spacing
+    spacing = (potencial.points[-1].distance-potencial.points[0].distance)/(pointnum-1)
+#    print(spacing)
+
+
+
+    x = np.linspace(potencial.points[0].distance,potencial.points[-1].distance, num = pointnum, endpoint = True)
+    interpol = interp1d(np.array(potencial.distances()),np.array(potencial.energies()),kind="cubic")
+
+    newpotencial = potencial.removepoints()
+    for dist in x:
+        newpotencial.addpoint(dist,interpol(dist))
+
+
+    #print(newpotencial.distances())
+    return newpotencial, spacing
 
 
 def quantumLHO(potencial, neigh, states=1):

@@ -158,13 +158,8 @@ class Line:
         return newline
     
     def distsort(self):
-        temp = self.points
-        temp.sort(key=lambda x: x.distance)
-        
-        templine = self
-        templine.points = temp 
-        
-        return templine
+        self.points.sort(key=lambda x: x.distance)
+        return self
         #self.points.sort(key=lambda x: x.distance)
     
     def minimum(self):
@@ -205,20 +200,21 @@ class Line:
         
     def extendtozero(self):
         self.distsort()
-        spacing = self.points[1].distance-self.points[0].distance
-        first = self.points[0]
-        curdist = first.distance - spacing
-        newpoint = first
-        while (curdist>0 and spacing>0):
-            newpoint = self.points[0]
-            newpoint.distance = curdist
-            print(curdist)
-            self.points.append(newpoint)
-            curdist = curdist - spacing
-        self.distsort()
-            
-    
+        self.addpoint(0,self.points[0].energy)
+
         
+    def removepoints(self):
+        self.points = list()
+        return self
+            
+    def addpoint(self,distance,energy):
+        newpoint = Point(distance,energy,
+                   moleculename=self.moleculename,basis=self.basis, 
+                   method =self.method,occ=self.occ,numberofelectrons=self.numberofelectrons,
+                   symmetry=self.symmetry,spin=self.spin,number=self.number)
+        self.points.append(newpoint)
+        self.distsort()
+
 
         
         
