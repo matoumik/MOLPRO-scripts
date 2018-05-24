@@ -18,27 +18,18 @@ def mu(amu1, amu2):
     return 1.0*amu1*amu2*amuel/(amu1+amu2)
 
 def quantumgrid(potencial,mu,spacing):
-    
-    #potencial = potencial.cut(mindist, maxdist)
-    #spacing = (potencial.points[1].distance - potencial.points[0].distance)/bohr
-    #potencial.extendtozero()
-
-
-    #print(spacing)
-    #TODO check equidistance    
+       
     spacing = spacing/bohr
     pointnum = len(potencial.points)
     potencial = potencial.distsort()
     
     hamiltonian = np.zeros((pointnum,pointnum))  
-    for i in range(1,pointnum,1):        
+    for i in range(1,pointnum,1):   
         hamiltonian[i][i] = potencial.points[i].energy/hartree + 1.0/mu/spacing/spacing
         hamiltonian[i][i-1] = -0.5/mu/spacing/spacing
         hamiltonian[i-1][i] = -0.5/(mu*spacing*spacing)
     
     E,psi = la.eigh(hamiltonian)
-    
-#    print(hamiltonian)
     
     return E*hartree, psi
 
@@ -48,8 +39,6 @@ def potencialgridprep(potencial, pointnum, mindist="", maxdist=""):
     potencial.extendtozero()
     potencial.distsort()
     spacing = (potencial.points[-1].distance-potencial.points[0].distance)/(pointnum-1)
-#    print(spacing)
-
 
 
     x = np.linspace(potencial.points[0].distance,potencial.points[-1].distance, num = pointnum, endpoint = True)

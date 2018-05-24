@@ -184,24 +184,13 @@ class Line:
             energs.append(point.energy)
         return energs
         
-#    def arrdistances(self):
-#        self.distsort()
-#        dists = np.array()
-#        for point in self.points:
-#            dists.append(point.distance)
-#        return dists
-#        
-#    def arrenergies(self):
-#        self.distsort()
-#        energs = list()
-#        for point in self.points:
-#            energs.append(point.energy)
-#        return energs
+    def asymptotice(self):
+        self.distsort()
+        return self.points[-1].energy
         
     def extendtozero(self):
         self.distsort()
         self.addpoint(0,self.points[0].energy)
-
         
     def removepoints(self):
         self.points = list()
