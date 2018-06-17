@@ -46,8 +46,7 @@ def linepars(line, mu):
 
 def comptablehead(file, var=1, caption = "TODO", label = "TODO"):
     tablehead1 = \
-    """\\begin{table}[]
-\\centering
+    """\\centering
 \\caption{""" +\
         caption \
       +   """}
@@ -56,11 +55,10 @@ def comptablehead(file, var=1, caption = "TODO", label = "TODO"):
       +   """}
 \\begin{tabular}{rrrrr}
 \\toprule
-Method & $E_a(BeH)[" eV"]$ & $E_a(H)[" eV"]$ & $D_a(BeH)[" eV"]$ & $D_a(BeH^-)[" eV"]$ \\\\ \\midrule
+Method & $E_a(BeH)[\mathrm{eV}]$ & $E_a(H)[\mathrm{eV}]$ & $D_a(BeH)[\mathrm{eV}]$ & $D_a(BeH^-)[\mathrm{eV}]$ \\\\ \\midrule
     """
     tablehead2 = \
-    """\\begin{table}[]
-\\centering
+    """\\centering
 \\caption{""" +\
         caption \
       +   """}
@@ -69,7 +67,7 @@ Method & $E_a(BeH)[" eV"]$ & $E_a(H)[" eV"]$ & $D_a(BeH)[" eV"]$ & $D_a(BeH^-)["
       +   """}
 \\begin{tabular}{rrrrr}
 \\toprule
-Method & $E_a(OH)[" eV"]$ & $E_a(O)[" eV"]$ & $D_a(OH)[" eV"]$ & $D_a(OH^-)[" eV"]$ \\\\ \\midrule
+Method & $E_a(OH)[\mathrm{eV}]$ & $E_a(O)[\mathrm{eV}]$ & $D_a(OH)[\mathrm{eV}]$ & $D_a(OH^-)[\mathrm{eV}]$ \\\\ \\midrule
 """
     if var == "BeH1":
         file.write(tablehead1)
@@ -80,7 +78,6 @@ def tablefoot(file):
     tablefoot = \
     """\\bottomrule
 \\end{tabular}
-\end{table}
     """
     file.write(tablefoot)
 
@@ -144,7 +141,7 @@ def vibrtablehead(file, var=1, caption = "TODO", label = "TODO", experimental = 
       +   """}
 \\begin{tabular}{rrrrr}
 \\toprule
-Method & $v_0 [" eV"]$ & $v_1 [" eV"]$ & $v_2 [" eV"]$ & $v_3[" eV"]$ \\\\ \\midrule
+Method & $v_0 [\mathrm{eV}]$ & $v_1 [\mathrm{eV}]$ & $v_2 [\mathrm{eV}]$ & $v_3[\mathrm{eV}]$ \\\\ \\midrule
     """
     tablehead2 = \
     """\\begin{table}[]
@@ -157,7 +154,7 @@ Method & $v_0 [" eV"]$ & $v_1 [" eV"]$ & $v_2 [" eV"]$ & $v_3[" eV"]$ \\\\ \\mid
       +   """}
 \\begin{tabular}{rrrrr}
 \\toprule
-Method & $v_0 [" eV"]$ & $v_1 [" eV"]$ & $v_2 [" eV"]$ & $v_3[" eV"]$ \\\\ \\midrule
+Method & $v_0 [\mathrm{eV}]$ & $v_1 [\mathrm{eV}]$ & $v_2 [\mathrm{eV}]$ & $v_3[\mathrm{eV}]$ \\\\ \\midrule
 """
     if var == "BeH1":
         file.write(tablehead1)
@@ -179,7 +176,7 @@ def vibrtableline(file,line,var="BeH1"):
     deli = " & "
     
     if var == "BeH1":
-        line.setoutputtemplate("$M $O /$B")
+        line.setoutputtemplate("$M $O/$B")
         linestr = str(line)
         for i in range(0,4,1):
             Etemp =E[i]-Emin
@@ -187,7 +184,7 @@ def vibrtableline(file,line,var="BeH1"):
         linestr = linestr + "\\\\\n"
         file.write(linestr)
     if var == "OH1":
-        line.setoutputtemplate("$M $O /$B")
+        line.setoutputtemplate("$M $O/$B")
         linestr = str(line)
         for i in range(0,4,1):
             linestr = linestr +deli + "{:.3f}".format(E[i]-Emin) 

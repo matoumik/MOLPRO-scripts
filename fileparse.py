@@ -16,6 +16,8 @@ re_occ = re.compile(r"\s*occ\s*,\s*(\S+)", re.I)
 re_method = re.compile(r"\s*1PROGRAM\s*\*\s*(\S+)")
 re_basis = re.compile(r"\s*basis\s*=\s*(\S+)", re.I)
 re_dist = re.compile(r"\s*SETTING R\(\S*\)\s*=\s*(\S*)")
+re_RHF_energy = re.compile(r"\s*!RHF STATE \S+\.\S+ Energy\s*(\S*)")
+re_UHF_energy = re.compile(r"\s*!UHF STATE \S+\.\S+ Energy\s*(\S*)")
 re_CCSD_energy = re.compile(r"\s*!CCSD total energy\s*(\S*)")
 re_UCCSD_energy = re.compile(r"\s*!RHF-UCCSD energy\s*(\S*)")
 re_RCCSD_energy = re.compile(r"\s*!RHF-RCCSD energy\s*(\S*)")
@@ -26,7 +28,7 @@ re_CI_sym = re.compile(r"\s*Reference symmetry:\s*(\S*)\s*(\S*)", re.I)
 re_RCCSDT1_energy = re.compile(r"\s*!RHF-RCCSD\(T\) energy\s*(\S*)")
 re_CCSDT1_energy = re.compile(r"\s*!CCSD\(T\) total energy\s*(\S*)")
 
-def parse(outfilename,moleculename=""):
+def parse(outfilename,moleculename="", HF=False):
     outfile = io.open(outfilename,'r')
     points = list()
     occ_t=""
@@ -47,8 +49,22 @@ def parse(outfilename,moleculename=""):
         m = re.match(re_method,textline)
         if m:
             method_t = m.group(1)
+            statenum = 0
         
-        
+        #RHF
+        if HF:
+            m = re.match(re_RHF_energy,textline)
+            if m:
+                RHFe = float(m.group(1))*hartree
+                newpoint= p.Point(distance_t,RHFe,moleculename,basis_t,method=method_t)
+                points.append(newpoint)
+        #UHF
+        if HF:
+            m = re.match(re_UHF_energy,textline)
+            if m:
+                RHFe = float(m.group(1))*hartree
+                newpoint= p.Point(distance_t,RHFe,moleculename,basis_t,method=method_t)
+                points.append(newpoint)
         
         #CCSD
         m = re.match(re_CCSD_energy,textline)
@@ -102,24 +118,26 @@ def parse(outfilename,moleculename=""):
         m = re.match(re_CI_energy,textline)
         if m:
             CIe = float(m.group(1))*hartree
-            newpoint= p.Point(distance_t,CIe,moleculename,basis_t,method=method_t,occ=occ_t,symmetry=CIsym,spin=CIspin)
+            newpoint= p.Point(distance_t,CIe,moleculename,basis_t,method=method_t,occ=occ_t,symmetry=CIsym,spin=CIspin, number=statenum)
             points.append(newpoint)
+            statenum = statenum + 1
             
-        
+            
     outfile.close()
     return p.makelines(points)
 
 def parsefolder(folderpath,moleculename="",
                 molprooutfilename="molpro.out",
                 mergeidenticallines=False,
-                silent = False):
+                silent = False,
+                HF = False):
     lines=p.Linelist()
     for dirName, subdirList, fileList in os.walk(folderpath):
         for fname in fileList:
             if fname == molprooutfilename:
                 if not silent:
                     print(dirName + "/" + fname)
-                lines = lines + parse(dirName + "/" + fname, moleculename)
+                lines = lines + parse(dirName + "/" + fname, moleculename, HF)
     
     if mergeidenticallines:
         lines = p.mergelines(lines)

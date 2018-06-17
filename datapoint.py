@@ -49,7 +49,7 @@ class Point:
         ret = re.sub(E,self.numberofelectrons,ret)
         ret = re.sub(G,str(self.energy),ret)
         ret = re.sub(M,self.method,ret)
-        ret = re.sub(N, self.number, ret)
+        ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
         ret = re.sub(L,self.symmetry, ret)
@@ -66,7 +66,7 @@ class Point:
         ret = re.sub(E,self.numberofelectrons,ret)
         ret = re.sub(G,str(self.energy),ret)
         ret = re.sub(M,self.method,ret)
-        ret = re.sub(N, self.number, ret)
+        ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
         ret = re.sub(L,self.symmetry, ret)
@@ -97,7 +97,7 @@ class Line:
         ret = re.sub(B, self.basis, ret)
         ret = re.sub(E,self.numberofelectrons,ret)
         ret = re.sub(M,self.method,ret)
-        ret = re.sub(N, self.number, ret)
+        ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
         ret = re.sub(L,self.symmetry, ret)
@@ -110,13 +110,16 @@ class Line:
         ret = re.sub(B, self.basis, ret)
         ret = re.sub(E,self.numberofelectrons,ret)
         ret = re.sub(M,self.method,ret)
-        ret = re.sub(N, self.number, ret)
+        ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
         ret = re.sub(L,self.symmetry, ret)
         ret = re.sub(U,self.moleculename,ret)
         
         return ret
+    
+    def __iter__(self):
+        return iter(self.points)
     
     def addline(self,line):
         self.points = self.points + line.points
@@ -190,7 +193,7 @@ class Line:
         
     def extendtozero(self):
         self.distsort()
-        self.addpoint(0,self.points[0].energy)
+        self.addpoint(0,self.points[0].energy+20)
         
     def removepoints(self):
         self.points = list()
@@ -258,6 +261,12 @@ def isin(thelist, themember):
     elif themember == "":
         return True
     elif type(thelist) is Linelist:
+        if themember in thelist:
+            return True
+    elif type(thelist) is list:
+        if themember in thelist:
+            return True
+    elif type(thelist) is tuple:
         if themember in thelist:
             return True
     elif thelist == themember:
