@@ -271,3 +271,13 @@ def wf(nelec,sym,spin,states=-1):
     # wfstr = wfstr +"nocheck;"
     return wfstr
             
+def BeH_gen(name,method="CI",occ="", basis="", ranges = (1.342396,)):
+    job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ)
+    job.addrange(ranges)
+    if method == "CI":
+        job.CI_BeH_ne()
+    elif method == "MULTI":
+        job.MULTI_BeH_ne()
+    job.makejob()
+    
+    
