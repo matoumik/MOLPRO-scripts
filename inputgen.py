@@ -206,8 +206,27 @@ class Molprojob:
     def addCI(self, nelec, sym, spin, states):
         self.methods = self.methods +\
         "{ci;\n" + wf(nelec,sym,spin,states) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" #
-
-     
+        
+    def MULTI_BeH_ne(self):
+        self.methods = self.methods +\
+        "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
+        "{multi;\n" + wf(5,1,1,7) + "\n" +\
+        wf(5,2,1,6) + "\n" +\
+        wf(5,3,1,6) + "\n" +\
+        wf(5,4,1,1) + "\n" +\
+        wf(5,2,3,1) + "\n" +\
+        wf(5,3,3,1) + "\n" +\
+        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
+    
+    def CI_BeH_ne(self):
+        self.MULTI_BeH_ne()
+        self.methods = self.methods +\
+        "{ci;\n"  + wf(5,2,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(5,3,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
+        "{ci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
+        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
 
 def makedistrange(mind, maxd, step):
     dists = list()
@@ -248,7 +267,7 @@ def gediat(el1, el2):
 def wf(nelec,sym,spin,states=-1):
     wfstr = "wf,nelec="+str(nelec)+",sym="+str(sym)+",spin="+str(spin)+";"
     if states > 1:
-        wfstr = wf + "states=" + str(states) + ","
+        wfstr = wfstr + "states=" + str(states) + ","
     # wfstr = wfstr +"nocheck;"
     return wfstr
             

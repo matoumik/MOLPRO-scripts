@@ -7,6 +7,7 @@ Created on Thu Apr 26 10:07:31 2018
 """
 
 import quantumsol as qs
+import inputgen as ig
 
 def annepars(anion, neutral, mu):
     an_pot, an_spacing = qs.potencialgridprep(anion, 400)
@@ -199,4 +200,14 @@ def vibrtable(filename, lines, var, caption = "TODO", label = "TODO", experiment
         vibrtableline(file, line, var)
     tablefoot(file)
     file.close()
+
+def BeH_gen(name,method="CI",occ="", basis="", ranges = (1.342396,)):
+    job = ig.Molprojob(name, geom=ig.gediat("Be","H"), basis =basis, occ = occ)
+    job.addrange(ranges)
+    if method == "CI":
+        job.CI_BeH_ne()
+    elif method == "MULTI":
+        job.MULTI_BeH_ne()
+    job.makejob()
+    
     
