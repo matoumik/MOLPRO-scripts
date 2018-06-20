@@ -159,7 +159,7 @@ class Molprojob:
         if len(self.ranges)==1:
             for therange in self.ranges:
                 self.writeinfile(therange, self.name+"/molpro.in")
-                self.writerunfile(dirn+"/run.sh")                
+                self.writerunfile(self.name+"/run.sh")                
         elif len(self.ranges)>1:
             i = 1
             runfile="#!/bin/bash\n\n"
