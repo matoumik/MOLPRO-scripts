@@ -265,10 +265,10 @@ def gediat(el1, el2):
     return el1 + " ,,   0.0, 0.0, -r(k)/2\n" + el2 + " ,,   0.0, 0.0, r(k)/2"
            
 def wf(nelec,sym,spin,states=-1):
-    wfstr = "wf,nelec="+str(nelec)+",sym="+str(sym)+",spin="+str(spin)+";"
+    wfstr = "wf,nelec="+str(nelec)+",sym="+str(sym)+",spin="+str(spin)
     if states > 1:
         wfstr = wfstr + "states=" + str(states) + ","
-    # wfstr = wfstr +"nocheck;"
+    wfstr = wfstr +";"
     return wfstr
             
 def BeH_gen(name,method="CI",occ="", basis="", ranges = (1.342396,)):
