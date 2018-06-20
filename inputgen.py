@@ -226,8 +226,7 @@ class Molprojob:
         "{ci;\n" + wf(5,3,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
-        "{ci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
-        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
+        "{ci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
 
 def makedistrange(mind, maxd, step):
     dists = list()
