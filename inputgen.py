@@ -19,6 +19,7 @@ geometry={
 
 !!BASIS!!
 !!OCC!!
+!!FROZEN!!
 
 rs      = [ !!DISTS!! ]
 
@@ -84,8 +85,9 @@ reBA = re.compile("!!BASIS!!")
 reDI = re.compile("!!DISTS!!")
 reME = re.compile("!!METHOD!!")
 reOC = re.compile("!!OCC!!")
+reFR = re.compile("!!FROZEN!!")
 class Molprojob:
-    def __init__(self,name="JOB",templatefile="",molname="", geom ="", basis="", occ=""):
+    def __init__(self,name="JOB",templatefile="",molname="", geom ="", basis="", occ="" frozen=""):
         self.name = name
         if templatefile != "":
             f= io.open(templatefile,'r')
@@ -108,6 +110,11 @@ class Molprojob:
             self.occ = ""
         else:
             self.occ = "occ," + occ
+            
+                if frozen == "":
+            self.occ = ""
+        else:
+            self.occ = "frozen," + frozen
         
         
         
@@ -139,8 +146,10 @@ class Molprojob:
         infile = re.sub(reGE, self.geom, infile)
         infile = re.sub(reBA, self.basis, infile)
         infile = re.sub(reOC, self.occ, infile)
+        infile = re.sub(reFR, self.frozen, infile)
         infile = re.sub(reDI, strdists, infile)
         infile = re.sub(reME, self.methods, infile)
+
         #print(infile)
         f = io.open(filename,'w')
         f.write(infile)
@@ -271,8 +280,8 @@ def wf(nelec,sym,spin,states=-1):
     wfstr = wfstr +";"
     return wfstr
             
-def BeH_gen(name,method="CI",occ="", basis="", ranges = (1.342396,)):
-    job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ)
+def BeH_gen(name,method="CI",occ="",frozen="" basis="", ranges = (1.342396,)):
+    job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
     job.addrange(ranges)
     if method == "CI":
         job.CI_BeH_ne()
