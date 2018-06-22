@@ -112,9 +112,9 @@ class Molprojob:
             self.occ = "occ," + occ
             
         if frozen == "":
-            self.occ = ""
+            self.frozen = ""
         else:
-            self.occ = "frozen," + frozen
+            self.frozen = "frozen," + frozen
         
         
         
