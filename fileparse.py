@@ -27,10 +27,14 @@ re_CI_sym = re.compile(r"\s*Reference symmetry:\s*(\S*)\s*(\S*)", re.I)
 re_RCCSDT1_energy = re.compile(r"\s*!RHF-RCCSD\(T\) energy\s*(\S*)")
 re_CCSDT1_energy = re.compile(r"\s*!CCSD\(T\) total energy\s*(\S*)")
 
+re_multi_st = re.compile(r"\s*Number of electrons:\s*(\S*)\s*Spin symmetry=(\S*)\s*Space symmetry=(\S*)")
+re_multi_energy = re.compile(r"\s*!MCSCF STATE (\S*)\.(\S*) Energy\s*(\S*)")
+
 def parse(outfilename,moleculename="", HF=False):
     outfile = io.open(outfilename,'r')
     points = list()
     occ_t=""
+    method_t=""
 
     for textline in outfile:
         m = re.match(re_occ,textline)
@@ -49,6 +53,17 @@ def parse(outfilename,moleculename="", HF=False):
         if m:
             method_t = m.group(1)
             statenum = 0
+            multistatetype = list()
+            
+        if method_t == "MULTI":
+            m = re.match(re_multi_st,textline)
+            if m:
+                multi_nelec_t = int(m.group(1))
+                multi_spin_t = m.group(2)
+                multi_sym_t = int(m.group(3))
+                multistatetype.append((multi_nelec_t, multi_spin_t, multi_sym_t))
+                multistate_curr = -1
+                
         
         #RHF
         if HF:
@@ -107,7 +122,7 @@ def parse(outfilename,moleculename="", HF=False):
             newpoint= p.Point(distance_t,FCIe,moleculename,basis_t,method=method_t)
             points.append(newpoint)
             
-        #CI TODO: more states
+        #CI 
         m = re.match(re_CI_sym,textline)
         if m:
             CIsym = m.group(1)
@@ -120,6 +135,18 @@ def parse(outfilename,moleculename="", HF=False):
             newpoint= p.Point(distance_t,CIe,moleculename,basis_t,method=method_t,occ=occ_t,symmetry=CIsym,spin=CIspin, number=statenum)
             points.append(newpoint)
             statenum = statenum + 1
+            
+        #multi
+        m = re.match(re_multi_energy,textline)
+        if m:
+            multie = float(m.group(3))*hartree
+            statenumber_t = int(m.group(1))
+            if statenumber_t == 1:
+                multistate_curr +=1
+            newpoint= p.Point(distance_t,multie,moleculename,basis_t,method="CASSCF",occ=occ_t,
+                              symmetry=multistatetype[multistate_curr][2],
+                              spin=multistatetype[multistate_curr][1], number=statenumber_t)
+            points.append(newpoint)
             
             
     outfile.close()

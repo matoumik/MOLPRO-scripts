@@ -46,30 +46,30 @@ class Point:
         ret = self.strtemplate
         ret = re.sub(B, self.basis, ret)
         ret = re.sub(D,str(self.distance),ret)
-        ret = re.sub(E,self.numberofelectrons,ret)
+        ret = re.sub(E,str(self.numberofelectrons),ret)
         ret = re.sub(G,str(self.energy),ret)
         ret = re.sub(M,self.method,ret)
         ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
-        ret = re.sub(L,self.symmetry, ret)
+        ret = re.sub(L,str(self.symmetry), ret)
         ret = re.sub(U,self.moleculename,ret)
         
         return ret
     
     def __repr__(self):
         
-        ret = "$B,$D,$E,$G,$M,$N,$O,$S,$L"
+        ret = "$B,$D,$E,$G,$M,$N,$O,$S,$L,$U"
         ret = self.strtemplate
         ret = re.sub(B, self.basis, ret)
         ret = re.sub(D,str(self.distance),ret)
-        ret = re.sub(E,self.numberofelectrons,ret)
+        ret = re.sub(E,str(self.numberofelectrons),ret)
         ret = re.sub(G,str(self.energy),ret)
         ret = re.sub(M,self.method,ret)
         ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
-        ret = re.sub(L,self.symmetry, ret)
+        ret = re.sub(L,str(self.symmetry), ret)
         ret = re.sub(U,self.moleculename,ret)
         
         return ret
@@ -95,12 +95,12 @@ class Line:
     def __str__(self):
         ret = self.strtemplate
         ret = re.sub(B, self.basis, ret)
-        ret = re.sub(E,self.numberofelectrons,ret)
+        ret = re.sub(E,str(self.numberofelectrons),ret)
         ret = re.sub(M,self.method,ret)
         ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
-        ret = re.sub(L,self.symmetry, ret)
+        ret = re.sub(L,str(self.symmetry), ret)
         ret = re.sub(U,self.moleculename,ret)
         
         return ret
@@ -108,12 +108,12 @@ class Line:
     def __repr__(self):
         ret = "$B,$E,$M,$N,$O,$S,$L"
         ret = re.sub(B, self.basis, ret)
-        ret = re.sub(E,self.numberofelectrons,ret)
+        ret = re.sub(E,str(self.numberofelectrons),ret)
         ret = re.sub(M,self.method,ret)
         ret = re.sub(N, str(self.number), ret)
         ret = re.sub(O,self.occ, ret)
         ret = re.sub(S,self.spin, ret)
-        ret = re.sub(L,self.symmetry, ret)
+        ret = re.sub(L,str(self.symmetry), ret)
         ret = re.sub(U,self.moleculename,ret)
         
         return ret

@@ -267,7 +267,7 @@ def gediat(el1, el2):
 def wf(nelec,sym,spin,states=-1):
     wfstr = "wf,nelec="+str(nelec)+",sym="+str(sym)+",spin="+str(spin)
     if states > 1:
-        wfstr = wfstr + ", state," + str(states) 
+        wfstr = wfstr + ";state," + str(states) 
     wfstr = wfstr +";"
     return wfstr
             
