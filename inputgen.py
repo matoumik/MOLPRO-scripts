@@ -280,7 +280,7 @@ def wf(nelec,sym,spin,states=-1):
     wfstr = wfstr +";"
     return wfstr
             
-def BeH_gen(name,method="CI",occ="",frozen="" basis="", ranges = (1.342396,)):
+def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
     job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
     job.addrange(ranges)
     if method == "CI":
