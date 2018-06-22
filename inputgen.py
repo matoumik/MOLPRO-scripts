@@ -87,7 +87,7 @@ reME = re.compile("!!METHOD!!")
 reOC = re.compile("!!OCC!!")
 reFR = re.compile("!!FROZEN!!")
 class Molprojob:
-    def __init__(self,name="JOB",templatefile="",molname="", geom ="", basis="", occ="" frozen=""):
+    def __init__(self,name="JOB",templatefile="",molname="", geom ="", basis="", occ="", frozen=""):
         self.name = name
         if templatefile != "":
             f= io.open(templatefile,'r')
