@@ -87,7 +87,7 @@ reME = re.compile("!!METHOD!!")
 reOC = re.compile("!!OCC!!")
 reFR = re.compile("!!FROZEN!!")
 class Molprojob:
-    def __init__(self,name="JOB",templatefile="",molname="", geom ="", basis="", occ="", frozen=""):
+    def __init__(self,name=".",templatefile="",molname="", geom ="", basis="", occ="", frozen=""):
         self.name = name
         if templatefile != "":
             f= io.open(templatefile,'r')
@@ -188,6 +188,9 @@ class Molprojob:
             f.write(runfile)
             f.close()
             #os.chmod(self.name+"/runall.sh",0777)
+    
+    def removemethods(self):
+        self.methods = ""
         
     def addRHF(self, nelec, sym, spin):
         self.methods = self.methods +\
@@ -212,15 +215,31 @@ class Molprojob:
     def addMULTI1(self, nelec, sym, spin):
         self.methods = self.methods +\
         "{multi;\n" + wf(nelec,sym,spin) + "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
+        
+    def addMULTI(self, states, weights):
+        self.methods = self.methods + "{multi;\n"
+        i = 0
+        for state in states:
+            nelec = state[0]
+            sym = state[1]
+            spin = state[2]
+            nstat = state[3]
+            self.methods + wf(nelec,sym,spin, nstat) + "weights"
+            for weight in weights[i]:
+                self.methods+=","+str(weight)
+            self.methods+=";\n"
+            i+=1
+        self.methods += "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
+
 
     def addCI(self, nelec, sym, spin, states):
         self.methods = self.methods +\
         "{ci;\n" + wf(nelec,sym,spin,states) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" #
         
-    def MULTI_BeH_ne(self):
+    def MULTI_BeH_ne(self, weights = ""):
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
-        "{multi;\n" + wf(5,1,1,7) + "\n" +\
+        "{multi;" + "\n" + wf(5,1,1,7) + "\n" +\
         wf(5,2,1,6) + "\n" +\
         wf(5,3,1,6) + "\n" +\
         wf(5,4,1,1) + "\n" +\

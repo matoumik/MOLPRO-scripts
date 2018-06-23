@@ -295,3 +295,15 @@ class Linelist(list):
     def setoutputtemplate(self,template):
         for line in self:
             line.setoutputtemplate(template)
+
+def spinstr(spin):
+    if spin == 0:
+        return "Singlet"
+    elif spin == 1:
+        return "Doublet"
+    elif spin == 2:
+        return "Triplet"
+    elif spin == 3:
+        return "Quartet"
+    
+    else: return "Too much"
