@@ -40,7 +40,7 @@ class molopt:
         dists=list()
         dists.append(self.distance)
         self.job.writeinfile(dists, "molpro.in")
-        #sp.check_call(molprocall, shell = True)
+        sp.check_call(molprocall, shell = True)
         lines = fp.parse("molpro.out")
         energies = list()
         for state in self.states:
@@ -69,8 +69,8 @@ class molopt:
             weights.append(tempweights)
         #print(weights)
         levels = self.energies(weights)
-        #return leastsq(levels, self.reference)
-        return leastsq(weights, self.reference)
+        return leastsq(levels, self.reference)
+        #return leastsq(weights, self.reference)
     
     
     def optimizeweights(self):
