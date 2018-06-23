@@ -224,7 +224,7 @@ class Molprojob:
             sym = state[1]
             spin = state[2]
             nstat = state[3]
-            self.methods + wf(nelec,sym,spin, nstat) + "weights"
+            self.methods += wf(nelec,sym,spin, nstat) + "weights"
             for weight in weights[i]:
                 self.methods+=","+str(weight)
             self.methods+=";\n"
