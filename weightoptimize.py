@@ -15,7 +15,7 @@ nelecHF = "6"
 spinHF = "0"
 symHF = "1"
 
-BeHstates=((5,1,1,7),(5,2,1,5),(5,3,1,1),(5,4,1,1),(5,2,3,1),(5,2,3,1))
+BeHstates=((5,1,1,7),(5,2,1,5),(5,3,1,5),(5,4,1,1),(5,2,3,1),(5,2,3,1))
 BeHreference=((0.0,5.532,5.539,6.107,6.706,6.747,7.019),
            (2.5,6.313,6.712,7.266,7.352),
            (2.5,6.313,6.712,7.266,7.352),
@@ -35,12 +35,12 @@ class molopt:
 
     def energies(self, weights):
         self.job.removemethods()
-        self.job.addRHF(nelecHF,spinHF,symHF)
+        self.job.addRHF(nelecHF,symHF,spinHF)
         self.job.addMULTI(self.states, weights)
         dists=list()
         dists.append(self.distance)
         self.job.writeinfile(dists, "molpro.in")
-        sp.check_call(molprocall, shell = True)
+        #sp.check_call(molprocall, shell = True)
         lines = fp.parse("molpro.out")
         energies = list()
         for state in self.states:
@@ -75,17 +75,22 @@ class molopt:
     
     def optimizeweights(self):
         initweights = list()
+        bnds = tuple()
         for st in self.states:
             initweights += [1]*st[3]
+            bnds += ((0,None),)*st[3]
         
-        optres = optimize.minimize(self.optfunc, np.array(initweights), method="CG",)
+        optres = optimize.minimize(self.optfunc, np.array(initweights), method="SLSQP", bounds=bnds,)
         optweights = optres.x
         outweights = list()
+        
         i=0
         for st in self.states:
+            tempweights = list()
             for a in range(0,st[3],1):
-                outweights.append(optweights[i])
+                tempweights.append(optweights[i])
                 i+=1
+            outweights.append(tempweights)
         return outweights
         
 
