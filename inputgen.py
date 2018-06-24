@@ -316,7 +316,7 @@ def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
         job.CI_BeH_ne()
     elif method == "MULTI":
         job.MULTI_BeH_ne()
-     elif method == "FCI":
+    elif method == "FCI":
         job.FCI_BeH_ne()
     job.makejob()
     
