@@ -16,6 +16,7 @@ frozen = "0,0,0,0"
 nelecHF = "6"
 spinHF = "0"
 symHF = "1"
+pspace = "0.5"
 
 BeHstates=((5,1,1,7),(5,2,1,5),(5,3,1,5),(5,4,1,1),(5,2,3,1),(5,3,3,1))
 BeHreference=((0.0,5.532,5.539,6.107,6.706,6.747,7.019),
@@ -39,7 +40,7 @@ class molopt:
     def energies(self, weights):
         self.job.removemethods()
         self.job.addRHF(nelecHF,symHF,spinHF)
-        self.job.addMULTI(self.states, weights)
+        self.job.addMULTI(self.states, weights, pspace=pspace)
         dists=list()
         dists.append(self.distance)
         self.job.writeinfile(dists, "molpro.in")
