@@ -28,13 +28,13 @@ BeHreference=((0.0,5.532,5.539,6.107,6.706,6.747,7.019),
 BeHjob = ig.Molprojob(geom=ig.gediat("Be","H"), basis=basis, occ = occ, frozen = frozen)
 
 class molopt:
-    def __init__(self,states, reference, distance, job = BeHjob, exccoeff = 0):
+    def __init__(self,states, reference, distance, job = BeHjob, exccoef = 0):
         self.states = states
         self.reference = reference
         self.distance = distance
         self.job = job
         self.i = 0
-        self.alpha = expcoeff
+        self.alpha = exccoef
 
     def energies(self, weights):
         self.job.removemethods()
