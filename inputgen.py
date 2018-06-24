@@ -16,7 +16,7 @@ angstrom
 geometry={
 !!GEOM!!
 }
-PSPACE.1.0
+
 
 !!BASIS!!
 !!OCC!!
@@ -240,7 +240,7 @@ class Molprojob:
     def MULTI_BeH_ne(self, weights = ""):
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
-        "{multi;" + "\n" + wf(5,1,1,7) + "\n" +\
+        "{multi;"+"PSPACE,1.0" + "\n" + wf(5,1,1,7) + "\n" +\
         wf(5,2,1,6) + "\n" +\
         wf(5,3,1,6) + "\n" +\
         wf(5,4,1,1) + "\n" +\
