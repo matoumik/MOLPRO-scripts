@@ -78,9 +78,9 @@ class molopt:
         bnds = tuple()
         for st in self.states:
             initweights += [1]*st[3]
-            bnds += ((0.0,1.0),)*st[3]
+            bnds += ((0.0,2.0),)*st[3]
         
-        optres = optimize.minimize(self.optfunc, np.array(initweights), method="L-BFGS-B", bounds=bnds,
+        optres = optimize.minimize(self.optfunc, np.array(initweights), method="TNC", bounds=bnds,
                                    options={'disp':True,'ftol':0.01,})
         optweights = optres.x
         outweights = list()
