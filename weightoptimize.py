@@ -5,6 +5,7 @@ import fileparse as fp
 import datapoint as dp
 from scipy import optimize
 import numpy as np
+import os
 
 molprocall = "/opt/MOLPRO/molpro/molpros_2012_1_Linux_x86_64_i8/bin/molpro --no-xml-output molpro.in"
 outfilename = "weights.out"
@@ -42,6 +43,7 @@ class molopt:
         self.job.writeinfile(dists, "molpro.in")
         sp.check_call(molprocall, shell = True)
         lines = fp.parse("molpro.out")
+        os.remove("molpro.out")
         energies = list()
         for state in self.states:
             templ = dp.chooselines(lines, symmetry=state[1], spin=dp.spinstr(state[2]))
