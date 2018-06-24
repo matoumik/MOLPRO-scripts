@@ -255,6 +255,16 @@ class Molprojob:
         "{ci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
         "{ci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+    
+    def FCI_BeH_ne(self):
+        self.methods = self.methods +\
+        "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
+        "{fci;\n"  + wf(5,2,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n" + wf(5,3,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+
 
 def makedistrange(mind, maxd, step):
     dists = list()
@@ -306,6 +316,8 @@ def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
         job.CI_BeH_ne()
     elif method == "MULTI":
         job.MULTI_BeH_ne()
+     elif method == "FCI":
+        job.FCI_BeH_ne()
     job.makejob()
     
     

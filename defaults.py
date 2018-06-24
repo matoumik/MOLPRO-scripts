@@ -11,3 +11,6 @@ import inputgen as ig
 range1 = ig.makedistrange(1.0, 0.6, 0.1) + ig.makedistrange(1.1, 2.5, 0.1) +\
          ig.makedistrange(2.6, 4.0, 0.2) + ig.makedistrange(5.0,10.0,1.0)
          
+range2 = ig.makedistrange(1.0, 0.6, 0.025) + ig.makedistrange(1.1, 2.5, 0.025) +\
+         ig.makedistrange(2.6, 4.0, 0.1) + ig.makedistrange(5.0,10.0,1.0)
+         
