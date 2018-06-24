@@ -82,8 +82,8 @@ class molopt:
             initweights += [1]*st[3]
             bnds += ((0.0,2.0),)*st[3]
         
-        optres = optimize.minimize(self.optfunc, np.array(initweights), method="TNC", bounds=bnds,
-                                   options={'disp':True,'ftol':0.01,})
+        optres = optimize.minimize(self.optfunc, np.array(initweights), method="SLSQP", bounds=bnds,
+                                   options={'disp':True,})
         optweights = optres.x
         outweights = list()
         
