@@ -6,6 +6,7 @@ import datapoint as dp
 from scipy import optimize
 import numpy as np
 import os
+import math
 
 molprocall = "/opt/MOLPRO/molpro/molpros_2012_1_Linux_x86_64_i8/bin/molpro --no-xml-output molpro.in"
 outfilename = "weights.out"
@@ -27,12 +28,13 @@ BeHreference=((0.0,5.532,5.539,6.107,6.706,6.747,7.019),
 BeHjob = ig.Molprojob(geom=ig.gediat("Be","H"), basis=basis, occ = occ, frozen = frozen)
 
 class molopt:
-    def __init__(self,states, reference, distance, job = BeHjob):
+    def __init__(self,states, reference, distance, job = BeHjob, exccoeff = 0):
         self.states = states
         self.reference = reference
         self.distance = distance
         self.job = job
         self.i = 0
+        self.alpha = expcoeff
 
     def energies(self, weights):
         self.job.removemethods()
@@ -71,7 +73,7 @@ class molopt:
             weights.append(tempweights)
         #print(weights)
         levels = self.energies(weights)
-        return leastsq(levels, self.reference)
+        return leastsq(levels, self.reference, self.alpha)
         #return leastsq(weights, self.reference)
     
     
@@ -95,13 +97,20 @@ class molopt:
                 i+=1
             outweights.append(tempweights)
         return outweights
+    
+    def makecurveinput(self, weights, ranges):
+        self.job.removemethods()
+        self.job.addRHF(nelecHF,symHF,spinHF)
+        self.job.addMULTI(self.states, weights)
+        self.job.addrange(ranges)
+        self.job.makejob()
         
 
-def leastsq(computed, exact):
+def leastsq(computed, exact, alpha=0):
     result = 0
     for en1 in zip(computed, exact):
         for en2 in zip(en1[0],en1[1]):
-            result+= (en2[0]-en2[1])*(en2[0]-en2[1])
+            result+= (en2[0]-en2[1])*(en2[0]-en2[1])*(math.exp(-alpha*en2[1]))
     return result
     
 
