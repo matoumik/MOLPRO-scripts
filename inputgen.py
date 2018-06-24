@@ -16,6 +16,7 @@ angstrom
 geometry={
 !!GEOM!!
 }
+PSPACE.1.0
 
 !!BASIS!!
 !!OCC!!
@@ -267,14 +268,14 @@ class Molprojob:
         "{fci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
-    def MULTI_BeH_ne(self, weights = ""):
+    def MULTI_OH_ne(self, weights = ""):
         self.methods = self.methods +\
-        "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
+        "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
         "{multi;states,10;" +"\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
         
     def CI_OH_ne(self):
-        self.MULTI_BeH_ne()
+        self.MULTI_OH_ne()
         self.methods = self.methods +\
         "{ci;states,10;\n" + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
