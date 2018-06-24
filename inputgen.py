@@ -311,7 +311,7 @@ def wf(nelec,sym,spin,states=-1):
             
 def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
     job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
-    job.addrange(ranges)
+    job.setrange(ranges)
     if method == "CI":
         job.CI_BeH_ne()
     elif method == "MULTI":
