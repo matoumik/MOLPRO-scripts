@@ -267,6 +267,17 @@ class Molprojob:
         "{fci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
+    def MULTI_BeH_ne(self, weights = ""):
+        self.methods = self.methods +\
+        "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
+        "{multi;states,10;" +"\n" +\
+        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
+        
+    def CI_OH_ne(self):
+        self.MULTI_BeH_ne()
+        self.methods = self.methods +\
+        "{ci;states,10;\n" + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        
     def FCI_OH_ne(self):
         self.methods = self.methods +\
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
@@ -327,7 +338,7 @@ def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
         job.FCI_BeH_ne()
     job.makejob()
     
-def OH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
+def OH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (0.96966,)):
     job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
     job.setranges(ranges)
     if method == "CI":
