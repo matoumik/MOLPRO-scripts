@@ -250,6 +250,7 @@ class Molprojob:
     def CI_BeH_ne(self):
         self.MULTI_BeH_ne()
         self.methods = self.methods +\
+        "{ci;\n"  + wf(5,1,1,7) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n"  + wf(5,2,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,3,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
@@ -259,6 +260,7 @@ class Molprojob:
     def FCI_BeH_ne(self):
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
+        "{fci;\n"  + wf(5,1,1,7) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n"  + wf(5,2,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,3,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
