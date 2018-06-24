@@ -161,7 +161,7 @@ class Line:
         return newline
     
     def distsort(self):
-        self.points.sort(key=lambda x: x.distance)
+        self.points = sorted(self.points, key=lambda x: x.distance)
         return self
         #self.points.sort(key=lambda x: x.distance)
     
@@ -206,6 +206,10 @@ class Line:
                    symmetry=self.symmetry,spin=self.spin,number=self.number)
         self.points.append(newpoint)
         self.distsort()
+    
+    def setzero(self,ene):
+        for point in self.points:
+            point.energy = point.energy - ene
 
 
         

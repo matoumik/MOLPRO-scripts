@@ -20,12 +20,19 @@ def setupplot(xrange="", yrange=""):
         mi, ma = yrange
         plt.ylim(mi, ma)
 
-def plotadd(lines):
-    if type(lines) is dp.Linelist:
-        for line in lines:
-            plt.plot(line.distances(),line.energies())
+def plotadd(lines, color = ""):
+    if color != "":
+        if type(lines) is dp.Linelist:
+            for line in lines:
+                plt.plot(line.distances(),line.energies(), color)
+        else:
+            plt.plot(lines.distances(),lines.energies(), color)
     else:
-        plt.plot(lines.distances(),lines.energies())
+        if type(lines) is dp.Linelist:
+            for line in lines:
+                plt.plot(line.distances(),line.energies())
+        else:
+            plt.plot(lines.distances(),lines.energies())
 
 def writeplot(file=""):
     if file=="":
@@ -38,3 +45,31 @@ def plot(lines,file="",xrange = "",yrange = ""):
     setupplot(xrange,yrange)
     plotadd(lines)
     writeplot(file)
+    
+def refplot(reference, experimental,file="",xrange="",yrange = "",shift=True):
+    setupplot(xrange,yrange)
+    if shift:
+        refmin=float('inf')
+        expmin=float('inf')
+        for line in reference:
+            if line.asymptotice()<refmin:
+                refmin = line.asymptotice()
+        for line in experimental:
+            if line.asymptotice()<expmin:
+                expmin = line.asymptotice()
+        
+        for line in reference:
+            line.setzero(refmin)
+        for line in experimental:
+            line.setzero(expmin)
+    
+    plotadd(reference, color='#D0D0B0')
+    plotadd(experimental, color='#FF5050')
+    writeplot(file)
+    
+    
+        
+    
+    
+    
+    

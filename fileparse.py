@@ -21,6 +21,8 @@ re_UHF_energy = re.compile(r"\s*!UHF STATE \S+\.\S+ Energy\s*(\S*)")
 re_CCSD_energy = re.compile(r"\s*!CCSD total energy\s*(\S*)")
 re_UCCSD_energy = re.compile(r"\s*!RHF-UCCSD energy\s*(\S*)")
 re_RCCSD_energy = re.compile(r"\s*!RHF-RCCSD energy\s*(\S*)")
+re_FCI_sym = re.compile(r"\s*Symmetry:\s*(\S*)", re.I)
+re_FCI_spin = re.compile(r"\s*Spin quantum number:\s*(\S*)", re.I)
 re_FCI_energy = re.compile(r"\s*!FCI STATE \S+\.\S+ Energy\s*(\S*)")
 re_CI_energy = re.compile(r"\s*!MRCI STATE \S+\.\S+ Energy\s*(\S*)")
 re_CI_sym = re.compile(r"\s*Reference symmetry:\s*(\S*)\s*(\S*)", re.I)
@@ -115,12 +117,23 @@ def parse(outfilename,moleculename="", HF=False):
             newpoint= p.Point(distance_t,CCSDT1e,moleculename,basis_t,method="CCSD(T)")
             points.append(newpoint)
             
-        #FCI TODO: more states
+        m = re.match(re_FCI_sym,textline)
+        if m:
+            FCI_sym = m.group(1)
+
+            
+        m = re.match(re_FCI_spin,textline)
+        if m:
+            FCI_spin = p.spinstr(int(2*float(m.group(1))))
+
+            
+
         m = re.match(re_FCI_energy,textline)
         if m:
             FCIe = float(m.group(1))*hartree
-            newpoint= p.Point(distance_t,FCIe,moleculename,basis_t,method=method_t)
+            newpoint= p.Point(distance_t,FCIe,moleculename,basis_t,method=method_t,spin=FCI_spin,symmetry =FCI_sym, number = statenum)
             points.append(newpoint)
+            statenum = statenum + 1
             
         #CI 
         m = re.match(re_CI_sym,textline)

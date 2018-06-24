@@ -266,6 +266,11 @@ class Molprojob:
         "{fci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        
+    def FCI_OH_ne(self):
+        self.methods = self.methods +\
+        "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
+        "{fci;state,10;\n" +"ORBITAL,IGNORE_ERROR;\n\n }\n\n"
 
 
 def makedistrange(mind, maxd, step):
@@ -322,4 +327,14 @@ def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
         job.FCI_BeH_ne()
     job.makejob()
     
+def OH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
+    job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
+    job.setranges(ranges)
+    if method == "CI":
+        job.CI_OH_ne()
+    elif method == "MULTI":
+        job.MULTI_OH_ne()
+    elif method == "FCI":
+        job.FCI_OH_ne()
+    job.makejob()
     
