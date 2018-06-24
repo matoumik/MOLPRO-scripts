@@ -217,8 +217,8 @@ class Molprojob:
         self.methods = self.methods +\
         "{multi;\n" + wf(nelec,sym,spin) + "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
         
-    def addMULTI(self, states, weights):
-        self.methods = self.methods + "{multi;\n"
+    def addMULTI(self, states, weights, pspace = 0.4):
+        self.methods = self.methods + "{multi;PSPACE," + str(pspace)+";\n"
         i = 0
         for state in states:
             nelec = state[0]
@@ -240,7 +240,7 @@ class Molprojob:
     def MULTI_BeH_ne(self, weights = ""):
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
-        "{multi;"+"PSPACE,0.5" + "\n" + wf(5,1,1,7) + "\n" +\
+        "{multi;" + "\n" + wf(5,1,1,7) + "\n" +\
         wf(5,2,1,6) + "\n" +\
         wf(5,3,1,6) + "\n" +\
         wf(5,4,1,1) + "\n" +\
