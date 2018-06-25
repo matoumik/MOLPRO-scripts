@@ -26,7 +26,7 @@ BeHreference=((0.0,5.532,5.539,6.107,6.706,6.747,7.019),
            (5.77,),
            (5.77,))
 
-BeHjob = ig.Molprojob(geom=ig.gediat("Be","H"), basis="aug-cc-pVDZ", occ = "aug-cc-pVDZ", frozen = "0,0,0,0")
+BeHjob = ig.Molprojob(geom=ig.gediat("Be","H"), basis="aug-cc-pVDZ", occ = "8,2,2,0", frozen = "0,0,0,0")
 
 class molopt:
     def __init__(self,states, reference, distance, job = BeHjob, exccoef = 0):
