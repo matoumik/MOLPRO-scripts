@@ -26,7 +26,7 @@ BeHreference=((0.0,5.532,5.539,6.107,6.706,6.747,7.019),
            (5.77,),
            (5.77,))
 
-BeHjob = ig.Molprojob(geom=ig.gediat("Be","H"), basis=basis, occ = occ, frozen = frozen)
+BeHjob = ig.Molprojob(geom=ig.gediat("Be","H"), basis="aug-cc-pVDZ", occ = "aug-cc-pVDZ", frozen = "0,0,0,0")
 
 class molopt:
     def __init__(self,states, reference, distance, job = BeHjob, exccoef = 0):
@@ -36,6 +36,7 @@ class molopt:
         self.job = job
         self.i = 0
         self.alpha = exccoef
+
 
     def energies(self, weights):
         self.job.removemethods()
@@ -83,7 +84,7 @@ class molopt:
         bnds = tuple()
         for st in self.states:
             initweights += [1]*st[3]
-            bnds += ((0.0,2.0),)*st[3]
+            bnds += ((0.9,1.1),)*st[3]
         
         optres = optimize.minimize(self.optfunc, np.array(initweights), method="SLSQP", bounds=bnds,
                                    options={'disp':True,})
