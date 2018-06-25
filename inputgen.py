@@ -277,7 +277,8 @@ class Molprojob:
   wf,nelec=9,sym=2,spin=1; state,2; !2P, 2P
   wf,nelec=9,sym=3,spin=1; state,2; !2P, 2P
   wf,nelec=9,sym=4,spin=3; state,1; !2S-
-  wf,nelec=9,sym=2,spin=3; state,1; !4P"""+\
+  wf,nelec=9,sym=2,spin=3; state,1; !4P
+  wf,nelec=9,sym=2,spin=3; state,1; !4P\n"""+\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
         
     def CI_OH_ne(self):
@@ -288,6 +289,7 @@ class Molprojob:
         "{ci;\n" + wf(9,2,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(9,3,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(9,4,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
+        "{ci;\n" + wf(9,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +/
         "{ci;\n" + wf(9,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
         
@@ -352,7 +354,7 @@ def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,)):
     job.makejob()
     
 def OH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (0.96966,)):
-    job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
+    job = Molprojob(name, geom=gediat("O","H"), basis =basis, occ = occ, frozen = frozen)
     job.setranges(ranges)
     if method == "CI":
         job.CI_OH_ne()
