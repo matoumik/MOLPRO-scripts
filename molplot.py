@@ -52,12 +52,13 @@ def refplot(reference, experimental,file="",xrange="",yrange = "",shift=True):
         refmin=float('inf')
         expmin=float('inf')
         for line in reference:
-            if line.asymptotice()<refmin:
-                refmin = line.asymptotice()
+            e, d = line.minimum()
+            if e <refmin:
+                refmin = e
         for line in experimental:
-            if line.asymptotice()<expmin:
-                expmin = line.asymptotice()
-        
+            e, d = line.minimum()
+            if e <expmin:
+                expmin = e
         for line in reference:
             line.setzero(refmin)
         for line in experimental:
