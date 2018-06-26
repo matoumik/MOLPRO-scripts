@@ -8,6 +8,7 @@ Created on Thu Apr 26 10:07:31 2018
 
 import quantumsol as qs
 import inputgen as ig
+import datapoint as dp
 
 def annepars(anion, neutral, mu):
     an_pot, an_spacing = qs.potencialgridprep(anion, 400)
@@ -201,13 +202,35 @@ def vibrtable(filename, lines, var, caption = "TODO", label = "TODO", experiment
     tablefoot(file)
     file.close()
 
-def BeH_gen(name,method="CI",occ="", basis="", ranges = (1.342396,)):
-    job = ig.Molprojob(name, geom=ig.gediat("Be","H"), basis =basis, occ = occ)
-    job.addrange(ranges)
-    if method == "CI":
-        job.CI_BeH_ne()
-    elif method == "MULTI":
-        job.MULTI_BeH_ne()
-    job.makejob()
+def eqtable(filename, levels, var):
+    file = open(filename, 'w')
+    file.write("\\begin{tabular}{r"+ 'r'*len(levels)+"}\n\\toprule")
+    if var =="BeH1":
+        terms = (1,2,3,4,5,6,7,8);
+    elif var =="OH1":
+        terms = (1,2,3,4,5,6,7,8,9);
+    i = 0
+    
+    newlevels = list()
+    for level in levels:
+        cilev = dp.chooselines(level, method = "CI")
+        if len(cilev) > 0:
+            level = cilev
+        newlevels.append(sorted(level, key = lambda x: x.points[0].energy ))    
+    levels = newlevels
+    
+    for term in terms:
+        tableline = str(term)
+        for linel in levels:
+            tableline += "&" + "{:.3f}".format(linel[i].points[0].energy)
+        tableline+="\\\\\n"
+        file.write(tableline)
+        i+=1
+        
+    tablefoot(file)
+    file.close()
+    
+        
+    
     
     
