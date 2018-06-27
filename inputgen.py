@@ -293,7 +293,6 @@ class Molprojob:
         "{ci;\n" + wf(9,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
     def FCI_OH_ne(self):
-        self.MULTI_OH_ne()
         self.methods = self.methods +\
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
         "{fci;\n"  + wf(9,1,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
