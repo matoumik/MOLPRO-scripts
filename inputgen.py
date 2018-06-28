@@ -275,19 +275,19 @@ class Molprojob:
         self.methods = self.methods +\
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
         """{multi;
-  wf,nelec=9,sym=1,spin=1; state,2; !2S+,2D
+  wf,nelec=9,sym=1,spin=1; state,3; !2S+,2D
   wf,nelec=9,sym=4,spin=1; state,2; !2S-,2D
   wf,nelec=9,sym=2,spin=1; state,2; !2P, 2P
   wf,nelec=9,sym=3,spin=1; state,2; !2P, 2P
   wf,nelec=9,sym=4,spin=3; state,1; !4S-
   wf,nelec=9,sym=2,spin=3; state,1; !4P
   wf,nelec=9,sym=2,spin=3; state,1; !4P\n"""+\
-        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
+        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" 
         
     def CI_OH_ne(self):
         self.MULTI_OH_ne()
         self.methods = self.methods +\
-        "{ci;\n"  + wf(9,1,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n"  + wf(9,1,1,3) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n"  + wf(9,4,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(9,2,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(9,3,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
@@ -298,7 +298,7 @@ class Molprojob:
     def FCI_OH_ne(self):
         self.methods = self.methods +\
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
-        "{fci;\n"  + wf(9,1,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n"  + wf(9,1,1,3) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n"  + wf(9,4,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(9,2,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(9,3,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
