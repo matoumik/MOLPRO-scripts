@@ -241,8 +241,8 @@ class Molprojob:
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
         "{multi;" + "\n" + wf(5,1,1,7) + "\n" +\
-        wf(5,2,1,6) + "\n" +\
-        wf(5,3,1,6) + "\n" +\
+        wf(5,2,1,5) + "\n" +\
+        wf(5,3,1,5) + "\n" +\
         wf(5,4,1,1) + "\n" +\
         wf(5,2,3,1) + "\n" +\
         wf(5,3,3,1) + "\n" +\
@@ -252,8 +252,8 @@ class Molprojob:
         self.MULTI_BeH_ne()
         self.methods = self.methods +\
         "{ci;\n"  + wf(5,1,1,7) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n"  + wf(5,2,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(5,3,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n"  + wf(5,2,1,5) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(5,3,1,5) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
         "{ci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
@@ -262,8 +262,8 @@ class Molprojob:
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
         "{fci;\n"  + wf(5,1,1,7) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{fci;\n"  + wf(5,2,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{fci;\n" + wf(5,3,1,6) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n"  + wf(5,2,1,5) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n" + wf(5,3,1,5) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
@@ -276,7 +276,7 @@ class Molprojob:
   wf,nelec=9,sym=4,spin=1; state,2; !2S-,2D
   wf,nelec=9,sym=2,spin=1; state,2; !2P, 2P
   wf,nelec=9,sym=3,spin=1; state,2; !2P, 2P
-  wf,nelec=9,sym=4,spin=3; state,1; !2S-
+  wf,nelec=9,sym=4,spin=3; state,1; !4S-
   wf,nelec=9,sym=2,spin=3; state,1; !4P
   wf,nelec=9,sym=2,spin=3; state,1; !4P\n"""+\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #

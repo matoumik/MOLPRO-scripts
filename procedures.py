@@ -204,7 +204,7 @@ def vibrtable(filename, lines, var, caption = "TODO", label = "TODO", experiment
 
 def eqtable(filename, levels, var):
     file = open(filename, 'w')
-    file.write("\\begin{tabular}{r"+ 'r'*len(levels)+"}\n\\toprule")
+    file.write("\\begin{tabular}{r"+ 'r'*len(levels)+"}\n\\toprule\n")
     if var =="BeH1":
         terms = (1,2,3,4,5,6,7,8);
     elif var =="OH1":
@@ -216,11 +216,26 @@ def eqtable(filename, levels, var):
         cilev = dp.chooselines(level, method = "CI")
         if len(cilev) > 0:
             level = cilev
-        newlevels.append(sorted(level, key = lambda x: x.points[0].energy ))    
+        #newlevels.append(dp.chooselines(sorted(level, key = lambda x: x.points[0].energy))) 
+        newlevels.append(level)
     levels = newlevels
+    for linel in levels:
+        linel.setoutputtemplate("$M $O")
+        file.write(" & "+str(linel[0]))
+    file.write("\\\\\n ")
+    for linel in levels:    
+        linel.setoutputtemplate("$B")
+        file.write(" & "+str(linel[0]))
+        
+        
+    file.write("\\\\\n\\midrule\n")            
+    
     
     for term in terms:
         tableline = str(term)
+        
+        
+        
         for linel in levels:
             tableline += "&" + "{:.3f}".format(linel[i].points[0].energy)
         tableline+="\\\\\n"

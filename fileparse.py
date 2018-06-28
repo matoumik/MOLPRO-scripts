@@ -32,7 +32,7 @@ re_CCSDT1_energy = re.compile(r"\s*!CCSD\(T\) total energy\s*(\S*)")
 re_multi_st = re.compile(r"\s*Number of electrons:\s*(\S*)\s*Spin symmetry=(\S*)\s*Space symmetry=(\S*)")
 re_multi_energy = re.compile(r"\s*!MCSCF STATE (\S*)\.(\S*) Energy\s*(\S*)")
 
-def parse(outfilename,moleculename="", HF=False):
+def parse(outfilename,moleculename="", HF=False, MULTI=True):
     outfile = io.open(outfilename,'r')
     points = list()
     occ_t=""
@@ -148,19 +148,20 @@ def parse(outfilename,moleculename="", HF=False):
             newpoint= p.Point(distance_t,CIe,moleculename,basis_t,method=method_t,occ=occ_t,symmetry=CIsym,spin=CIspin, number=statenum)
             points.append(newpoint)
             statenum = statenum + 1
-            
+        
         #multi
-        m = re.match(re_multi_energy,textline)
-        if m:
-            multie = float(m.group(3))*hartree
-            statenumber_t = int(m.group(1))
-            if statenumber_t == 1:
-                multistate_curr +=1
-            newpoint= p.Point(distance_t,multie,moleculename,basis_t,method="CASSCF",occ=occ_t,
-                              symmetry=multistatetype[multistate_curr][2],
-                              spin=multistatetype[multistate_curr][1], number=statenumber_t)
-            points.append(newpoint)
-            
+        if MULTI:    
+            m = re.match(re_multi_energy,textline)
+            if m:
+                multie = float(m.group(3))*hartree
+                statenumber_t = int(m.group(1))
+                if statenumber_t == 1:
+                    multistate_curr +=1
+                newpoint= p.Point(distance_t,multie,moleculename,basis_t,method="CASSCF",occ=occ_t,
+                                  symmetry=multistatetype[multistate_curr][2],
+                                  spin=multistatetype[multistate_curr][1], number=statenumber_t)
+                points.append(newpoint)
+                
             
     outfile.close()
     return p.makelines(points)
@@ -169,14 +170,14 @@ def parsefolder(folderpath,moleculename="",
                 molprooutfilename="molpro.out",
                 mergeidenticallines=False,
                 silent = False,
-                HF = False):
+                HF = False, MULTI=True):
     lines=p.Linelist()
     for dirName, subdirList, fileList in os.walk(folderpath):
         for fname in fileList:
             if fname == molprooutfilename:
                 if not silent:
                     print(dirName + "/" + fname)
-                lines = lines + parse(dirName + "/" + fname, moleculename, HF)
+                lines = lines + parse(dirName + "/" + fname, moleculename, HF, MULTI)
     
     if mergeidenticallines:
         lines = p.mergelines(lines)
