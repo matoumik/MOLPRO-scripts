@@ -257,7 +257,8 @@ class Molprojob:
         "{ci;\n" + wf(5,3,1,5) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
-        "{ci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        "{ci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(5,1,3,3) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
     
     def FCI_BeH_ne(self):
         self.methods = self.methods +\
@@ -267,7 +268,8 @@ class Molprojob:
         "{fci;\n" + wf(5,3,1,5) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,4,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{fci;\n" + wf(5,1,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
     def MULTI_OH_ne(self, weights = ""):
         self.methods = self.methods +\
