@@ -246,6 +246,7 @@ class Molprojob:
         wf(5,4,1,1) + "\n" +\
         wf(5,2,3,1) + "\n" +\
         wf(5,3,3,1) + "\n" +\
+        wf(5,1,3,3) + "\n"
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
     
     def CI_BeH_ne(self):
