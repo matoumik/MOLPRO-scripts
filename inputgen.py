@@ -123,7 +123,7 @@ class Molprojob:
         if dynw != 0:
             self.dynw = "DYNW," + str(dynw)
         else:
-            dynw = ""
+            self.dynw = ""
         
         self.ranges = list()
         self.methods = ""
