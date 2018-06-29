@@ -253,8 +253,8 @@ class Molprojob:
         self.MULTI_BeH_ne()
         self.methods = self.methods +\
         "{ci;\n"  + wf(5,1,1,7) + "OPTION,NSTATI=8;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n"  + wf(5,2,1,5) + "OPTION,NSTATI=6;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(5,3,1,5) + "OPTION,NSTATI=6;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n"  + wf(5,2,1,5) + "OPTION,NSTATI=7;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(5,3,1,5) + "OPTION,NSTATI=7;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,4,1,1) + "OPTION,NSTATI=1;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,2,3,1) + "OPTION,NSTATI=1;ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
         "{ci;\n" + wf(5,3,3,1) + "OPTION,NSTATI=1;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
