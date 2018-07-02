@@ -253,7 +253,7 @@ class Molprojob:
         wf(5,4,1,1) + "\n" +\
         wf(5,2,3,1) + "\n" +\
         wf(5,3,3,1) + "\n" +\
-        wf(5,1,3,3) + "\n" +\
+        wf(5,1,3,4) + "\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
     
     def CI_BeH_ne(self):
@@ -265,7 +265,7 @@ class Molprojob:
         "{ci;\n" + wf(5,4,1,1) + "OPTION,NSTATI=1;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(5,2,3,1) + "OPTION,NSTATI=1;ORBITAL,IGNORE_ERROR;\n\n }\n\n"  +\
         "{ci;\n" + wf(5,3,3,1) + "OPTION,NSTATI=1;ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(5,1,3,3) + "OPTION,NSTATI=3;ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        "{ci;\n" + wf(5,1,3,4) + "OPTION,NSTATI=3;ORBITAL,IGNORE_ERROR;\n\n }\n\n"
     
     def FCI_BeH_ne(self):
         self.methods = self.methods +\
