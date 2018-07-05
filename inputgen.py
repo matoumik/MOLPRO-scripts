@@ -281,7 +281,7 @@ class Molprojob:
     def MULTI_OH_ne(self, weights = -1):
         try:
             it = iter(weights)
-            if len(weights) < 6:
+            if len(weights) < 7:
                 weights += (-1,)*6 
         except:
             weights = (-1,-1,-1,-1,-1,-1,-1)
@@ -289,6 +289,7 @@ class Molprojob:
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
         "{multi;" +\
          wf(9,1,1,3) + weightstr(weights[0]) + "\n" +\
+         wf(9,4,1,2) + weightstr(weights[1]) + "\n" +\
          wf(9,2,1,2) + weightstr(weights[1]) + "\n" +\
          wf(9,3,1,2) + weightstr(weights[2]) + "\n" +\
          wf(9,4,3,1) + weightstr(weights[3]) + "\n" +\
