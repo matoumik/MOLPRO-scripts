@@ -278,17 +278,22 @@ class Molprojob:
         "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,1,3,3) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
-    def MULTI_OH_ne(self, weights = ""):
+    def MULTI_OH_ne(self, weights = -1):
+        try:
+            it = iter(weights)
+            if len(weights) < 6:
+                weights += (-1,)*6 
+        except:
+            weights = (-1,-1,-1,-1,-1,-1,-1)
         self.methods = self.methods +\
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
-        """{multi;
-  wf,nelec=9,sym=1,spin=1; state,3; !2S+,2D
-  wf,nelec=9,sym=4,spin=1; state,2; !2S-,2D
-  wf,nelec=9,sym=2,spin=1; state,2; !2P, 2P
-  wf,nelec=9,sym=3,spin=1; state,2; !2P, 2P
-  wf,nelec=9,sym=4,spin=3; state,1; !4S-
-  wf,nelec=9,sym=2,spin=3; state,1; !4P
-  wf,nelec=9,sym=2,spin=3; state,1; !4P\n"""+\
+        "{multi;" +\
+         wf(9,1,1,3) + weightstr(weights[0]) + "\n" +\
+         wf(9,2,1,2) + weightstr(weights[1]) + "\n" +\
+         wf(9,3,1,2) + weightstr(weights[2]) + "\n" +\
+         wf(9,4,3,1) + weightstr(weights[3]) + "\n" +\
+         wf(9,2,3,1) + weightstr(weights[4]) + "\n" +\
+         wf(9,3,3,1) + weightstr(weights[5]) + "\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" 
         
     def CI_OH_ne(self):
@@ -356,6 +361,20 @@ def wf(nelec,sym,spin,states=-1):
         wfstr = wfstr + ";state," + str(states) 
     wfstr = wfstr +";"
     return wfstr
+
+def weightstr(weights):
+    try:
+        it = iter(weights)
+    except:
+        return ""
+    else:
+        ret = "weight"
+        for weight in weights:
+            ret += "," + str(weight)
+        ret += ";"
+        
+        return ret
+
             
 def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,), dynw = 0):
     job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
@@ -368,13 +387,13 @@ def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,), d
         job.FCI_BeH_ne()
     job.makejob()
     
-def OH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (0.96966,)):
+def OH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (0.96966,), weights = -1):
     job = Molprojob(name, geom=gediat("O","H"), basis =basis, occ = occ, frozen = frozen)
     job.setranges(ranges)
     if method == "CI":
         job.CI_OH_ne()
     elif method == "MULTI":
-        job.MULTI_OH_ne()
+        job.MULTI_OH_ne(weights)
     elif method == "FCI":
         job.FCI_OH_ne()
     job.makejob()
