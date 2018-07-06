@@ -244,16 +244,23 @@ class Molprojob:
         self.methods = self.methods +\
         "{ci;\n" + wf(nelec,sym,spin,states) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" #
         
-    def MULTI_BeH_ne(self, weights = ""):
+    def MULTI_BeH_ne(self, weights = -1):
+        try:
+            it = iter(weights)
+            if len(weights) < 7:
+                weights += (-1,)*6 
+        except:
+            weights = (-1,-1,-1,-1,-1,-1,-1)
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
-        "{multi;" + "\n" + wf(5,1,1,7) + "\n" +\
-        wf(5,2,1,5) + "\n" +\
-        wf(5,3,1,5) + "\n" +\
-        wf(5,4,1,1) + "\n" +\
-        wf(5,2,3,1) + "\n" +\
-        wf(5,3,3,1) + "\n" +\
-        wf(5,1,3,4) + "\n" +\
+        "{multi;" + "\n" +\
+        wf(5,1,1,7) + weightstr(weights[0]) + "\n" +\
+        wf(5,2,1,5) + weightstr(weights[0]) + "\n" +\
+        wf(5,3,1,5) + weightstr(weights[0]) + "\n" +\
+        wf(5,4,1,1) + weightstr(weights[0]) + "\n" +\
+        wf(5,2,3,1) + weightstr(weights[0]) + "\n" +\
+        wf(5,3,3,1) + weightstr(weights[0]) + "\n" +\
+        wf(5,1,3,4) + weightstr(weights[0]) + "\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
     
     def CI_BeH_ne(self):
@@ -377,7 +384,7 @@ def weightstr(weights):
         return ret
 
             
-def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,), dynw = 0):
+def BeH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,), weights = -1):
     job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
     job.setranges(ranges)
     if method == "CI":
