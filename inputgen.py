@@ -304,8 +304,29 @@ class Molprojob:
          wf(9,3,3,1) + weightstr(weights[5]) + "\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" 
         
-    def CI_OH_ne(self):
-        self.MULTI_OH_ne()
+    def MULTI_OH_an(self, weights = -1):
+        try:
+            it = iter(weights)
+            if len(weights) < 7:
+                weights += (-1,)*6 
+        except:
+            weights = (-1,-1,-1,-1,-1,-1,-1)
+        self.methods = self.methods +\
+        "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
+        "{multi;" +\
+         wf(10,1,1,1) + weightstr(weights[0]) + "\n" +\
+         wf(10,2,1,1) + weightstr(weights[1]) + "\n" +\
+         wf(10,3,1,1) + weightstr(weights[2]) + "\n" +\
+         wf(10,1,3,1) + weightstr(weights[3]) + "\n" +\
+         wf(10,4,3,1) + weightstr(weights[4]) + "\n" +\
+         wf(10,2,3,2) + weightstr(weights[5]) + "\n" +\
+         wf(10,3,3,2) + weightstr(weights[6]) + "\n" +\
+        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" 
+     
+    
+        
+    def CI_OH_ne(self, weights = -1):
+        self.MULTI_OH_ne(weights)
         self.methods = self.methods +\
         "{ci;\n"  + wf(9,1,1,3) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n"  + wf(9,4,1,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
@@ -315,6 +336,17 @@ class Molprojob:
         "{ci;\n" + wf(9,2,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(9,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
+    def CI_OH_an(self):
+        self.MULTI_OH_ne()
+        self.methods = self.methods +\
+        "{ci;\n" + wf(10,1,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,2,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,3,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,1,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,4,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,2,3,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,3,3,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+      
     def FCI_OH_ne(self):
         self.methods = self.methods +\
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
