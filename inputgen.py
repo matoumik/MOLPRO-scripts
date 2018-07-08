@@ -297,11 +297,11 @@ class Molprojob:
         "{multi;" +\
          wf(9,1,1,3) + weightstr(weights[0]) + "\n" +\
          wf(9,4,1,2) + weightstr(weights[1]) + "\n" +\
-         wf(9,2,1,2) + weightstr(weights[1]) + "\n" +\
-         wf(9,3,1,2) + weightstr(weights[2]) + "\n" +\
-         wf(9,4,3,1) + weightstr(weights[3]) + "\n" +\
-         wf(9,2,3,1) + weightstr(weights[4]) + "\n" +\
-         wf(9,3,3,1) + weightstr(weights[5]) + "\n" +\
+         wf(9,2,1,2) + weightstr(weights[2]) + "\n" +\
+         wf(9,3,1,2) + weightstr(weights[3]) + "\n" +\
+         wf(9,4,3,1) + weightstr(weights[4]) + "\n" +\
+         wf(9,2,3,1) + weightstr(weights[5]) + "\n" +\
+         wf(9,3,3,1) + weightstr(weights[6]) + "\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" 
         
     def MULTI_OH_an(self, weights = -1):
