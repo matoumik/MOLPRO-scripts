@@ -477,9 +477,9 @@ def OH_gen_an(name,method="CI",occ="",frozen="", basis="", ranges = (0.96966,), 
     job = Molprojob(name, geom=gediat("O","H"), basis =basis, occ = occ, frozen = frozen)
     job.setranges(ranges)
     if method == "CI":
-        job.CI_OH_an(weights)
+        job.CI_OH_an()
     elif method == "MULTI":
-        job.MULTI_OH_an(weights)
+        job.MULTI_OH_an()
     elif method == "FCI":
         job.FCI_OH_an()
     job.makejob()

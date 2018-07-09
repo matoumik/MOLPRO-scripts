@@ -199,7 +199,7 @@ def vibrtableline(file,line,var="BeH1",mindist = "", maxdist = ""):
         line.setoutputtemplate("$M $O/$B")
         linestr = str(line)
         for i in range(0,4,1):
-            linestr = linestr +deli + "{:.3f}".format(E[i]-E[0]) 
+            linestr = linestr +deli + "{:.4f}".format(E[i]-E[0]) 
         linestr = linestr + "\\\\\n"
         file.write(linestr)    
     
@@ -210,7 +210,7 @@ def vibrtable(filename, lines, var, caption = "TODO", label = "TODO", experiment
     if var=="BeH2" and experimental:
         file.write("Exper. & 0.000 & 0.246 & 0.483 & 0.710 \\\\\n\\midrule\n" )
     if var=="OH2" and experimental:
-        file.write("Exper. & 0.000 & 0.462 &  &  \\\\\n\\midrule\n" )
+        file.write("Exper. & 0.000 & 0.4636 & 0.9276 & 1.3918 \\\\\n\\midrule\n" )
     for line in lines:
         vibrtableline(file, line, var, mindist, maxdist)
     tablefoot(file)
