@@ -48,25 +48,13 @@ def linepars(line, mu):
 
 def comptablehead(file, var=1, caption = "TODO", label = "TODO"):
     tablehead1 = \
-    """\\centering
-\\caption{""" +\
-        caption \
-      +   """}
-\\label{""" +\
-        label \
-      +   """}
+"""
 \\begin{tabular}{rrrrr}
 \\toprule
 Method & $E_a(BeH)[\mathrm{eV}]$ & $E_a(H)[\mathrm{eV}]$ & $D_a(BeH)[\mathrm{eV}]$ & $D_a(BeH^-)[\mathrm{eV}]$ \\\\ \\midrule
     """
     tablehead2 = \
-    """\\centering
-\\caption{""" +\
-        caption \
-      +   """}
-\\label{""" +\
-        label \
-      +   """}
+"""
 \\begin{tabular}{rrrrr}
 \\toprule
 Method & $E_a(OH)[\mathrm{eV}]$ & $E_a(O)[\mathrm{eV}]$ & $D_a(OH)[\mathrm{eV}]$ & $D_a(OH^-)[\mathrm{eV}]$ \\\\ \\midrule
@@ -80,7 +68,7 @@ def tablefoot(file):
     tablefoot = \
     """\\bottomrule
 \\end{tabular}
-    """
+"""
     file.write(tablefoot)
 
 def comptable2line(file,anion, neutral,var="BeH1"):
@@ -133,48 +121,52 @@ def annetable(filename, anionlines, neutrallines, var, caption = "TODO", label =
     
 def vibrtablehead(file, var=1, caption = "TODO", label = "TODO", experimental = True):
     tablehead1 = \
-    """\\begin{table}[]
-\\centering
-\\caption{""" +\
-        caption \
-      +   """}
-\\label{""" +\
-        label \
-      +   """}
-\\begin{tabular}{rrrrr}
+"""
+\\begin{tabular}{lllll}
 \\toprule
 Method & $v_0 [\mathrm{eV}]$ & $v_1 [\mathrm{eV}]$ & $v_2 [\mathrm{eV}]$ & $v_3[\mathrm{eV}]$ \\\\ \\midrule
     """
     tablehead2 = \
-    """\\begin{table}[]
-\\centering
-\\caption{""" +\
-        caption \
-      +   """}
-\\label{""" +\
-        label \
-      +   """}
-\\begin{tabular}{rrrrr}
+    """
+\\begin{tabular}{lllll}
 \\toprule
 Method & $v_0 [\mathrm{eV}]$ & $v_1 [\mathrm{eV}]$ & $v_2 [\mathrm{eV}]$ & $v_3[\mathrm{eV}]$ \\\\ \\midrule
 """
     if var == "BeH1":
         file.write(tablehead1)
+    elif var == "BeH2":
+        file.write(tablehead1)
     elif var == "OH1":
+        file.write(tablehead2)
+    elif var == "OH2":
+        file.write(tablehead2)
+    elif var == "OHan1":
+        file.write(tablehead2)
+    elif var == "OHan2":
         file.write(tablehead2)
         
 
-def vibrtableline(file,line,var="BeH1"):
+def vibrtableline(file,line,var="BeH1",mindist = "", maxdist = ""):
     print(var)
     if var == "BeH1":
-        mu = qs.mu(1,9)
+        mu = qs.mu(1,9.012)
+    elif var == "BeH2":
+        mu = qs.mu(1,9.012)
     elif var == "OH1":
         mu = qs.mu(1,16)
+    elif var == "OH2":
+        mu = qs.mu(1,16)
+    elif var == "OHan1":
+        mu = qs.mu(1,16)
+    elif var == "OHan2":
+        mu = qs.mu(1,16)
     
-    potencial, spacing = qs.potencialgridprep(line, 400)
-    E, psi = qs.quantumgrid(potencial, mu, spacing)
+    potencial, spacing = qs.potencialgridprep(line, 1000, mindist, maxdist)
     Emin, whatever = potencial.minimum()
-
+    #potencial.setzero(Emin)
+    E, psi = qs.quantumgrid(potencial, mu, spacing)
+    print(E[0])
+    print(E[1])
     deli = " & "
     
     if var == "BeH1":
@@ -185,6 +177,17 @@ def vibrtableline(file,line,var="BeH1"):
             linestr = linestr +deli + "{:.4f}".format(Etemp) 
         linestr = linestr + "\\\\\n"
         file.write(linestr)
+        
+    if var == "BeH2":
+        line.setoutputtemplate("$M $O/$B")
+        linestr = str(line)
+        for i in range(0,4,1):
+            Etemp =E[i]-E[0]
+            linestr = linestr +deli + "{:.4f}".format(Etemp) 
+        linestr = linestr + "\\\\\n"
+        file.write(linestr)
+    
+    
     if var == "OH1":
         line.setoutputtemplate("$M $O/$B")
         linestr = str(line)
@@ -192,13 +195,24 @@ def vibrtableline(file,line,var="BeH1"):
             linestr = linestr +deli + "{:.3f}".format(E[i]-Emin) 
         linestr = linestr + "\\\\\n"
         file.write(linestr)        
+    if var == "OH2":
+        line.setoutputtemplate("$M $O/$B")
+        linestr = str(line)
+        for i in range(0,4,1):
+            linestr = linestr +deli + "{:.3f}".format(E[i]-E[0]) 
+        linestr = linestr + "\\\\\n"
+        file.write(linestr)    
     
     
-def vibrtable(filename, lines, var, caption = "TODO", label = "TODO", experimental = True):
+def vibrtable(filename, lines, var, caption = "TODO", label = "TODO", experimental = True, mindist = "", maxdist = ""):
     file = open(filename, 'w')
     vibrtablehead(file, var, caption, label)
+    if var=="BeH2" and experimental:
+        file.write("Exper. & 0.000 & 0.246 & 0.483 & 0.710 \\\\\n\\midrule\n" )
+    if var=="OH2" and experimental:
+        file.write("Exper. & 0.000 & 0.462 &  &  \\\\\n\\midrule\n" )
     for line in lines:
-        vibrtableline(file, line, var)
+        vibrtableline(file, line, var, mindist, maxdist)
     tablefoot(file)
     file.close()
 

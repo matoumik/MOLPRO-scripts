@@ -146,7 +146,7 @@ class Line:
         for firstpoint in self.points:
             for secondpoint in y.points:
                 if abs(float(secondpoint.distance) - float(firstpoint.distance)) < distepsilon:
-                    newpoint = firstpoint
+                    newpoint = Point(firstpoint.distance, 0)
                     newpoint.energy = firstpoint.energy - secondpoint.energy
                     newline.points.append(newpoint)
         return newline

@@ -187,12 +187,13 @@ def parsefolder(folderpath,moleculename="",
 def parsefolderlist(folderlist,moleculename="",
                 molprooutfilename="molpro.out",
                 mergeidenticallines=False,
-                silent = False):
+                silent = False,
+                HF = False, MULTI=True):
     lines=p.Linelist()
     for foldername in folderlist:
         templines = parsefolder(foldername,moleculename,
                 molprooutfilename,
                 mergeidenticallines,
-                silent)
+                silent, HF, MULTI)
         lines = lines + templines
     return lines

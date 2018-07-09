@@ -285,6 +285,30 @@ class Molprojob:
         "{fci;\n" + wf(5,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{fci;\n" + wf(5,1,3,3) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
+    def MULTI_BeH_an(self, weights = -1):
+        try:
+            it = iter(weights)
+            if len(weights) < 7:
+                weights += (-1,)*6 
+        except:
+            weights = (-1,-1,-1,-1,-1,-1,-1)
+        self.methods = self.methods +\
+        "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
+        "{multi;" + "\n" +\
+        wf(6,1,0,1) + weightstr(weights[0]) + "\n" +\
+        "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
+    
+    def CI_BeH_an(self):
+        self.MULTI_BeH_an()
+        self.methods = self.methods +\
+        "{ci;\n"  + wf(6,1,0,1) + "OPTION,NSTATI=8,NOCHECK;ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+    
+    def FCI_BeH_an(self):
+        self.methods = self.methods +\
+        "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
+        "{fci;\n"  + wf(6,1,1,0) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+    
+        
     def MULTI_OH_ne(self, weights = -1):
         try:
             it = iter(weights)
@@ -438,3 +462,26 @@ def OH_gen(name,method="CI",occ="",frozen="", basis="", ranges = (0.96966,), wei
         job.FCI_OH_ne()
     job.makejob()
     
+def BeH_gen_an(name,method="CI",occ="",frozen="", basis="", ranges = (1.342396,), weights = -1):
+    job = Molprojob(name, geom=gediat("Be","H"), basis =basis, occ = occ, frozen = frozen)
+    job.setranges(ranges)
+    if method == "CI":
+        job.CI_BeH_an()
+    elif method == "MULTI":
+        job.MULTI_BeH_an()
+    elif method == "FCI":
+        job.FCI_BeH_an()
+    job.makejob()
+    
+def OH_gen_an(name,method="CI",occ="",frozen="", basis="", ranges = (0.96966,), weights = -1):
+    job = Molprojob(name, geom=gediat("O","H"), basis =basis, occ = occ, frozen = frozen)
+    job.setranges(ranges)
+    if method == "CI":
+        job.CI_OH_an(weights)
+    elif method == "MULTI":
+        job.MULTI_OH_an(weights)
+    elif method == "FCI":
+        job.FCI_OH_an()
+    job.makejob()
+    
+

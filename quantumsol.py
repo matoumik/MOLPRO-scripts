@@ -19,7 +19,7 @@ bohr= 0.529177
 eps = 0.0001
 
 def mu(amu1, amu2):
-    return 1.0*amu1*amu2*amuel/(amu1+amu2)
+    return 1.0*amu1*amu2*amuel/(1.0*(amu1+amu2))
 
 def quantumgrid(potencial,mu,spacing):
        
@@ -28,10 +28,12 @@ def quantumgrid(potencial,mu,spacing):
     potencial = potencial.distsort()
     
     hamiltonian = np.zeros((pointnum,pointnum))  
-    for i in range(1,pointnum,1):   
+    for i in range(1,pointnum,1):  
         hamiltonian[i][i] = potencial.points[i].energy/hartree + 1.0/mu/spacing/spacing
         hamiltonian[i][i-1] = -0.5/mu/spacing/spacing
         hamiltonian[i-1][i] = -0.5/(mu*spacing*spacing)
+        
+    hamiltonian[0][0] = potencial.points[0].energy/hartree  
     
     E,psi = la.eigh(hamiltonian)
     
