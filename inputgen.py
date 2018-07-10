@@ -361,7 +361,7 @@ class Molprojob:
         "{ci;\n" + wf(9,3,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
     def CI_OH_an(self):
-        self.MULTI_OH_ne()
+        self.MULTI_OH_an()
         self.methods = self.methods +\
         "{ci;\n" + wf(10,1,0,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
         "{ci;\n" + wf(10,2,0,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
