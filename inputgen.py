@@ -288,8 +288,7 @@ class Molprojob:
     def MULTI_BeH_an(self, weights = -1):
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
-        "{multi;" + "\n" +\
-        wf(6,1,0) "\n" +\
+        "{multi;" +  wf(6,1,0) +"\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
     
     def CI_BeH_an(self):
