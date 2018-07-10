@@ -286,27 +286,21 @@ class Molprojob:
         "{fci;\n" + wf(5,1,3,3) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
         
     def MULTI_BeH_an(self, weights = -1):
-        try:
-            it = iter(weights)
-            if len(weights) < 7:
-                weights += (-1,)*6 
-        except:
-            weights = (-1,-1,-1,-1,-1,-1,-1)
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
         "{multi;" + "\n" +\
-        wf(6,1,0,1) + weightstr(weights[0]) + "\n" +\
+        wf(6,1,0) "\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" #
     
     def CI_BeH_an(self):
         self.MULTI_BeH_an()
         self.methods = self.methods +\
-        "{ci;\n"  + wf(6,1,0,1) + "OPTION,NSTATI=8,NOCHECK;ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        "{ci;\n"  + wf(6,1,0) + "OPTION,NSTATI=8,NOCHECK;ORBITAL,IGNORE_ERROR;\n\n }\n\n"
     
     def FCI_BeH_an(self):
         self.methods = self.methods +\
         "{rhf;\n" + wf(6,1,0) + "\n}\n\n"+\
-        "{fci;\n"  + wf(6,1,1,0) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        "{fci;\n"  + wf(6,1,0) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
     
         
     def MULTI_OH_ne(self, weights = -1):

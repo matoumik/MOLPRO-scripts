@@ -61,7 +61,9 @@ def plotadd(lines, color = "", title = ""):
             else:
                 plt.plot(lines.distances(),lines.energies())
 
-def writeplot(file=""):
+def writeplot(file="",title=False):
+    if title:
+        plt.legend()
     if file=="":
         plt.show()
     else:
