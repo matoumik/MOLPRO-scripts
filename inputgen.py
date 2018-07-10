@@ -338,13 +338,13 @@ class Molprojob:
         self.methods = self.methods +\
         "{rhf;\n" + wf(10,1,0) + "\n}\n\n"+\
         "{multi;" +\
-         wf(10,1,1,1) + weightstr(weights[0]) + "\n" +\
-         wf(10,2,1,1) + weightstr(weights[1]) + "\n" +\
-         wf(10,3,1,1) + weightstr(weights[2]) + "\n" +\
-         wf(10,1,3,1) + weightstr(weights[3]) + "\n" +\
-         wf(10,4,3,1) + weightstr(weights[4]) + "\n" +\
-         wf(10,2,3,2) + weightstr(weights[5]) + "\n" +\
-         wf(10,3,3,2) + weightstr(weights[6]) + "\n" +\
+         wf(10,1,0,1) + weightstr(weights[0]) + "\n" +\
+         wf(10,2,0,1) + weightstr(weights[1]) + "\n" +\
+         wf(10,3,0,1) + weightstr(weights[2]) + "\n" +\
+         wf(10,1,2,1) + weightstr(weights[3]) + "\n" +\
+         wf(10,4,2,1) + weightstr(weights[4]) + "\n" +\
+         wf(10,2,2,2) + weightstr(weights[5]) + "\n" +\
+         wf(10,3,2,2) + weightstr(weights[6]) + "\n" +\
         "ORBITAL,IGNORE_ERROR;\n \n }\n\n" 
      
     
@@ -363,13 +363,13 @@ class Molprojob:
     def CI_OH_an(self):
         self.MULTI_OH_ne()
         self.methods = self.methods +\
-        "{ci;\n" + wf(10,1,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(10,2,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(10,3,1,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(10,1,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(10,4,3,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(10,2,3,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
-        "{ci;\n" + wf(10,3,3,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
+        "{ci;\n" + wf(10,1,0,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,2,0,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,3,0,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,1,2,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,4,2,1) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,2,2,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n" +\
+        "{ci;\n" + wf(10,3,2,2) + "ORBITAL,IGNORE_ERROR;\n\n }\n\n"
       
     def FCI_OH_ne(self):
         self.methods = self.methods +\

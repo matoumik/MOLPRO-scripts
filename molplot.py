@@ -20,19 +20,46 @@ def setupplot(xrange="", yrange=""):
         mi, ma = yrange
         plt.ylim(mi, ma)
 
-def plotadd(lines, color = ""):
+def plotadd(lines, color = "", title = ""):
     if color != "":
-        if type(lines) is dp.Linelist:
-            for line in lines:
-                plt.plot(line.distances(),line.energies(), color)
+        if title != "":
+            if type(lines) is dp.Linelist:
+                first = True
+                for line in lines:
+                    if first:
+                        plt.plot(line.distances(),line.energies(), color=color, label = title)
+                        first = False
+                    else:
+                        plt.plot(line.distances(),line.energies(), color=color)
+            else:
+                plt.plot(lines.distances(),lines.energies(), color=color, label = title)
         else:
-            plt.plot(lines.distances(),lines.energies(), color)
+            if type(lines) is dp.Linelist:
+                
+                for line in lines:
+                        plt.plot(line.distances(),line.energies(), color=color)
+                    
+            else:
+                plt.plot(lines.distances(),lines.energies(), color=color,)
+    
     else:
-        if type(lines) is dp.Linelist:
-            for line in lines:
-                plt.plot(line.distances(),line.energies())
-        else:
-            plt.plot(lines.distances(),lines.energies())
+         if title != "":
+            if type(lines) is dp.Linelist:
+                first = True
+                for line in lines:
+                    if first:
+                        plt.plot(line.distances(),line.energies(), color=color, title = title)
+                        first = False
+                    else:
+                        plt.plot(line.distances(),line.energies(), color=color)
+            else:
+                plt.plot(lines.distances(),lines.energies(), color=color, title = title)
+         else:
+            if type(lines) is dp.Linelist:
+                for line in lines:
+                    plt.plot(line.distances(),line.energies())
+            else:
+                plt.plot(lines.distances(),lines.energies())
 
 def writeplot(file=""):
     if file=="":
